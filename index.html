@@ -2,199 +2,136 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Современный дизайн с закруглениями и тенями */
         :root {
-            --main-color: var(--tg-theme-button-color, #2481cc);
-            --bg-color: var(--tg-theme-bg-color, #ffffff);
-            --text-color: var(--tg-theme-text-color, #000000);
-            --hint-color: var(--tg-theme-hint-color, #999999);
-            --secondary-bg: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            --bg: var(--tg-theme-bg-color, #ffffff);
+            --text: var(--tg-theme-text-color, #000000);
+            --hint: var(--tg-theme-hint-color, #999);
+            --btn: var(--tg-theme-button-color, #2481cc);
+            --btn-text: var(--tg-theme-button-text-color, #ffffff);
+            --sec-bg: var(--tg-theme-secondary-bg-color, #f5f5f5);
         }
 
-        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 15px; background: var(--bg-color); color: var(--text-color); padding-bottom: 150px; }
-        
-        /* Стили заголовка и фильтров */
-        .header { position: sticky; top: 0; background: var(--bg-color); z-index: 100; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .categories, .sort-bar { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; }
-        
-        .btn { 
-            background: var(--secondary-bg); border: 1px solid #ddd; padding: 8px 16px; 
-            border-radius: 20px; white-space: nowrap; cursor: pointer; color: var(--text-color); font-size: 14px; 
-        }
-        .btn.active { background: var(--main-color); color: #fff; border-color: var(--main-color); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* Красивые карточки товаров */
-        .product-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
-        .card { 
-            display: none; background: var(--secondary-bg); border-radius: 15px; 
-            overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee;
-            transition: transform 0.2s;
-        }
-        .card.show { display: block; }
-        .card img { width: 100%; height: 180px; object-fit: cover; background: #fff; }
-        .card-content { padding: 15px; }
-        .card h3 { margin: 0 0 5px 0; font-size: 18px; }
-        .card p { margin: 0; font-size: 13px; color: var(--hint-color); height: 32px; overflow: hidden; }
-        .price { font-size: 20px; font-weight: bold; color: #31b545; margin: 12px 0; }
+        /* Сетка товаров 2 в ряд */
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .product-card { background: var(--sec-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        .product-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; }
+        .product-info { padding: 8px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .product-desc { font-size: 11px; color: var(--hint); margin-bottom: 8px; line-height: 1.2; height: 26px; overflow: hidden; }
+        .product-price { font-size: 16px; font-weight: bold; color: #31b545; margin-top: auto; }
         
-        .add-btn { 
-            background: var(--main-color); color: #fff; border: none; padding: 10px; 
-            border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer;
-        }
+        .add-to-cart-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 8px; border-radius: 8px; margin-top: 8px; font-weight: 600; font-size: 13px; }
 
-        /* Панель корзины */
-        .cart-panel {
-            position: fixed; bottom: 0; left: 0; right: 0; background: var(--secondary-bg);
-            padding: 15px; border-top: 1px solid #ddd; border-radius: 20px 20px 0 0;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1); display: none;
-        }
-        #commentInput {
-            width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd;
-            margin-bottom: 10px; box-sizing: border-box; background: var(--bg-color); color: var(--text-color);
-        }
-        .order-btn { background: #31b545; color: #fff; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 16px; }
-        .clear-link { display: block; text-align: center; color: #e53935; margin-top: 10px; font-size: 14px; text-decoration: none; cursor: pointer; }
+        /* Экран корзины (скрыт по умолчанию) */
+        #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 1000; transition: 0.3s; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        #cart-page.active { left: 0; }
+
+        .back-btn { background: none; border: none; color: var(--btn); font-size: 16px; margin-bottom: 20px; cursor: pointer; }
+        .delivery-option { display: flex; gap: 10px; margin: 20px 0; }
+        .delivery-btn { flex: 1; padding: 10px; border: 1px solid var(--btn); border-radius: 10px; background: none; color: var(--text); }
+        .delivery-btn.selected { background: var(--btn); color: var(--btn-text); }
+
+        /* Кнопка открытия корзины внизу */
+        .cart-footer { position: fixed; bottom: 0; width: 100%; padding: 15px; background: var(--bg); border-top: 1px solid var(--sec-bg); display: none; box-sizing: border-box; }
+        .view-cart-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="categories">
-            <div class="btn active" onclick="filter('all', event)">📦 Все</div>
-            <div class="btn" onclick="filter('mb', event)">📟 Материнки</div>
-            <div class="btn" onclick="filter('cpu', event)">💎 Процессоры</div>
-            <div class="btn" onclick="filter('ram', event)">🧠 Память</div>
-            <div class="cat-btn" onclick="filter('cul', event)">Кулер</div>
-            <div class="cat-btn" onclick="filter('bp', event)">Блок питания</div>
-            <div class="cat-btn" onclick="filter('ssd', event)">SSD 2,5"</div>
-            <div class="cat-btn" onclick="filter('nvme', event)">SSD M.2 NVME</div>
-            <div class="cat-btn" onclick="filter('kor', event)">Корпус</div>
-
-        </div>
-        <div class="sort-bar">
-            <span style="font-size: 13px; align-self: center; margin-right: 5px;">Цена:</span>
-            <div class="btn" onclick="sortProducts('asc')">📈 Дешевле</div>
-            <div class="btn" onclick="sortProducts('desc')">📉 Дороже</div>
-        </div>
-    </div>
-
-    <div class="product-grid" id="products">
-        <div class="card mb show">
-            <img src="https://optim.tildacdn.pub/tild3932-3139-4136-a132-666433313464/-/resize/760x/-/format/webp/2025-02-19_12-40-58-.png.webp">
-            <div class="card-content">
-                <h3>Материнская плата X99 P4 New</h3>
-                <p>🔹Улучшенный радиатор на зоне VRM
-🔹Поддержка памяти 4*DDR4. Двухканальный режим работы памяти. Максимально 128 Гб
-🔹NVME M.2
-🔹Серверный чипсет C612
-🔹Поддержка процессоров Intel Xeon E5 V3 V4, сокет LGA 2011-3
-🔹4* USB 2.0, 2*USB 3.0
-🔹Разъем TPM 2.0
-🔹Форм-фактор m-atx (micro atx) . Размер 216*190 мм
-🔹mATX.</p>
-                <div class="price">4000 ₽</div>
-                <button class="add-btn" onclick="addToCart('Материнская плата X99 P4 New', 4000)">В корзину</button>
+    <div id="main-page">
+        <div style="padding: 15px; font-size: 20px; font-weight: bold;">Магазин Xeon X99</div>
+        <div class="container" id="product-list">
+            <div class="product-card">
+                <img src="https://ae04.alicdn.com/kf/H215e96644f1c42268487779f64d0d34fG.jpg" onclick="showDetails('X99-BD4', 'Топовая плата с активным охлаждением и 4 каналами памяти. Идеальна для 2666v3.')">
+                <div class="product-info">
+                    <div class="product-title">Huananzhi X99-BD4</div>
+                    <div class="product-desc">Активный охлад, mATX, 4xDDR4</div>
+                    <div class="product-price">7500 ₽</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('X99-BD4', 7500)">В корзину</button>
+                </div>
             </div>
-        </div>
-
-        <div class="card mb show">
-            <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg">
-            <div class="card-content">
-                <h3>X99-TF (White)</h3>
-                <p>Легендарная плата, лучшая для анлока.</p>
-                <div class="price">8900 ₽</div>
-                <button class="add-btn" onclick="addToCart('X99-TF', 8900)">В корзину</button>
-            </div>
-        </div>
-
-        <div class="card cpu show">
-            <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg">
-            <div class="card-content">
-                <h3>Xeon E5-2666 v3</h3>
-                <p>10 ядер, 20 потоков, TDP 135W.</p>
-                <div class="price">1850 ₽</div>
-                <button class="add-btn" onclick="addToCart('2666 v3', 1850)">В корзину</button>
+            <div class="product-card">
+                <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg" onclick="showDetails('Xeon E5-2666 v3', '10 ядер, 20 потоков. Лучший выбор для игр на 2011-3 сокете.')">
+                <div class="product-info">
+                    <div class="product-title">E5-2666 v3</div>
+                    <div class="product-desc">10 ядер, 135W, мощный зверь</div>
+                    <div class="product-price">1900 ₽</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('E5-2666 v3', 1900)">В корзину</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="cart-panel" id="cartPanel">
-        <input type="text" id="commentInput" placeholder="Добавить комментарий к сборке...">
-        <button class="order-btn" onclick="sendOrder()">Заказать сборку на <span id="totalPrice">0</span> ₽</button>
-        <span class="clear-link" onclick="clearCart()">Очистить корзину</span>
+    <div id="cart-page">
+        <button class="back-btn" onclick="closeCart()">← Назад к покупкам</button>
+        <h2>Ваша корзина</h2>
+        <div id="cart-items"></div>
+        
+        <h3>Способ получения:</h3>
+        <div class="delivery-option">
+            <button id="btn-self" class="delivery-btn selected" onclick="setDelivery('Самовывоз')">🏃 Самовывоз</button>
+            <button id="btn-delivery" class="delivery-btn" onclick="setDelivery('Доставка')">🚚 Доставка</button>
+        </div>
+
+        <button class="view-cart-btn" style="margin-top: 20px;" onclick="checkout()">Оформить заказ</button>
+    </div>
+
+    <div class="cart-footer" id="cart-footer">
+        <button class="view-cart-btn" onclick="openCart()">Перейти в корзину (<span id="cart-total">0</span> ₽)</button>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
         let cart = [];
-
-        // ФУНКЦИЯ ФИЛЬТРАЦИИ
-        function filter(category, event) {
-            document.querySelectorAll('.categories .btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('.card').forEach(card => {
-                card.classList.toggle('show', category === 'all' || card.classList.contains(category));
-            });
-        }
-
-        // ФУНКЦИЯ СОРТИРОВКИ (ВСТАВЛЕНА СЮДА)
-        function sortProducts(direction) {
-            const container = document.getElementById('products');
-            const cards = Array.from(container.getElementsByClassName('card'));
-            
-            cards.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.price').innerText.replace(/\D/g, ''));
-                const priceB = parseInt(b.querySelector('.price').innerText.replace(/\D/g, ''));
-                return direction === 'asc' ? priceA - priceB : priceB - priceA;
-            });
-
-            container.innerHTML = '';
-            cards.forEach(card => container.appendChild(card));
-            tg.HapticFeedback.impactOccurred('light');
-        }
+        let deliveryType = 'Самовывоз';
 
         function addToCart(name, price) {
             cart.push({name, price});
-            updateCart();
             tg.HapticFeedback.impactOccurred('medium');
+            updateFooter();
         }
 
-        function clearCart() {
-            cart = [];
-            updateCart();
-            document.getElementById('commentInput').value = '';
-        }
-
-        function updateCart() {
-            const panel = document.getElementById('cartPanel');
+        function updateFooter() {
+            const footer = document.getElementById('cart-footer');
             if (cart.length > 0) {
-                panel.style.display = 'block';
-                const total = cart.reduce((sum, item) => sum + item.price, 0);
-                document.getElementById('totalPrice').innerText = total;
-            } else {
-                panel.style.display = 'none';
+                footer.style.display = 'block';
+                const total = cart.reduce((s, i) => s + i.price, 0);
+                document.getElementById('cart-total').innerText = total;
             }
         }
 
-        function sendOrder() {
-            const orderId = Math.floor(Math.random() * 9000) + 1000;
-            const comment = document.getElementById('commentInput').value;
-            let total = 0;
-            let orderText = `📦 ЗАКАЗ №${orderId}\n`;
-            orderText += `-------------------\n`;
-            cart.forEach((item, index) => {
-                orderText += `${index + 1}. ${item.name} (${item.price}₽)\n`;
-                total += item.price;
-            });
-            orderText += `-------------------\n`;
-            orderText += `💰 ИТОГО: ${total}₽\n`;
-            if(comment) orderText += `💬 Коммент: ${comment}`;
+        function openCart() {
+            const itemsDiv = document.getElementById('cart-items');
+            itemsDiv.innerHTML = cart.map(i => `<div style="padding:10px; border-bottom:1px solid #eee;">${i.name} — <b>${i.price} ₽</b></div>`).join('');
+            document.getElementById('cart-page').classList.add('active');
+        }
 
-            tg.sendData(orderText);
+        function closeCart() {
+            document.getElementById('cart-page').classList.remove('active');
+        }
+
+        function setDelivery(type) {
+            deliveryType = type;
+            document.getElementById('btn-self').classList.toggle('selected', type === 'Самовывоз');
+            document.getElementById('btn-delivery').classList.toggle('selected', type === 'Доставка');
+        }
+
+        function showDetails(name, desc) {
+            tg.showAlert(`Описание ${name}:\n\n${desc}`);
+        }
+
+        function checkout() {
+            let total = cart.reduce((s, i) => s + i.price, 0);
+            let text = `🛒 НОВЫЙ ЗАКАЗ\n----------\n`;
+            cart.forEach((i, idx) => text += `${idx+1}. ${i.name}\n`);
+            text += `----------\n💰 ИТОГО: ${total} ₽\n📦 Способ: ${deliveryType}`;
+            tg.sendData(text);
         }
     </script>
 </body>
