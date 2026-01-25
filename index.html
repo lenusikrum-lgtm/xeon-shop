@@ -16,32 +16,34 @@
 
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
         
-        /* Фиксированная шапка */
+        /* Шапка */
         .header { position: sticky; top: 0; background: var(--bg); z-index: 100; padding: 10px; border-bottom: 1px solid var(--sec-bg); }
-        
-        /* Поле поиска */
         .search-box { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--sec-bg); background: var(--sec-bg); color: var(--text); margin-bottom: 10px; box-sizing: border-box; outline: none; }
+        .controls { display: flex; gap: 8px; }
+        select.btn-select { flex: 1; background: var(--sec-bg); color: var(--text); border: 1px solid #ddd; padding: 10px; border-radius: 10px; outline: none; }
+        .sort-btn { background: var(--sec-bg); border: 1px solid #ddd; padding: 10px; border-radius: 10px; color: var(--text); }
 
-        /* Выпадающее меню и кнопки */
-        .controls { display: flex; gap: 8px; margin-bottom: 5px; }
-        select.btn-select { flex: 1; background: var(--sec-bg); color: var(--text); border: 1px solid #ddd; padding: 10px; border-radius: 10px; font-size: 14px; outline: none; }
-        .sort-btn { background: var(--sec-bg); border: 1px solid #ddd; padding: 10px; border-radius: 10px; cursor: pointer; color: var(--text); font-size: 14px; }
-
-        /* Сетка товаров */
+        /* Сетка */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
         .card { background: var(--sec-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.05); }
         .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
         .info { padding: 10px; flex-grow: 1; }
-        .title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+        .title { font-size: 14px; font-weight: bold; }
         .price { font-size: 16px; font-weight: 800; color: #31b545; margin: 8px 0; }
         .add-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        /* Корзина (экран) */
+        /* Корзина */
         #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 200; transition: 0.3s; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         #cart-page.active { left: 0; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--sec-bg); }
         
-        /* Доставка и кнопки */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--sec-bg); }
+        .item-info { flex: 1; font-size: 14px; }
+        .item-controls { display: flex; align-items: center; gap: 12px; }
+        .cnt-btn { background: var(--sec-bg); border: 1px solid #ddd; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text); cursor: pointer; }
+        
+        .total-row { margin-top: 20px; padding: 15px 0; border-top: 2px solid var(--btn); font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
+
+        /* Общие кнопки */
         .d-btn { width: 100%; padding: 12px; border: 1px solid var(--btn); border-radius: 10px; background: none; color: var(--text); margin-bottom: 5px; text-align: left; }
         .d-btn.active { background: var(--btn); color: var(--btn-text); }
         .main-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; position: fixed; bottom: 15px; left: 15px; width: calc(100% - 30px); z-index: 150; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -50,8 +52,7 @@
 <body>
 
 <div class="header">
-    <input type="text" class="search-box" id="searchInput" placeholder="Поиск по названию..." oninput="searchItems()">
-    
+    <input type="text" class="search-box" id="searchInput" placeholder="Поиск товара..." oninput="searchItems()">
     <div class="controls">
         <select class="btn-select" id="catFilter" onchange="filter(this.value)">
             <option value="all">📦 Все категории</option>
@@ -59,10 +60,6 @@
             <option value="cpu">💎 Процессоры</option>
             <option value="ram">🧠 Память</option>
             <option value="cool">❄️ Кулеры</option>
-            <option value="psu">🔌 БП</option>
-            <option value="ssd">💾 SSD 2.5"</option>
-            <option value="m2">🚀 SSD M.2 NVMe</option>
-            <option value="case">🖥 Корпус</option>
         </select>
         <button class="sort-btn" onclick="sort(1)">↑</button>
         <button class="sort-btn" onclick="sort(-1)">↓</button>
@@ -70,41 +67,45 @@
 </div>
 
 <div class="grid" id="products">
-    <div class="card mb" data-price="7500" data-name="Huananzhi X99-BD4">
+    <div class="card mb" data-price="7500" data-name="X99-BD4">
         <img src="https://ae04.alicdn.com/kf/H215e96644f1c42268487779f64d0d34fG.jpg">
         <div class="info">
-            <div class="title">Huananzhi X99-BD4</div>
+            <div class="title">X99-BD4 Gaming</div>
             <div class="price">7500 ₽</div>
             <button class="add-btn" onclick="addToCart('X99-BD4', 7500)">В корзину</button>
         </div>
     </div>
-    <div class="card cpu" data-price="1900" data-name="Xeon E5-2666 v3">
+    <div class="card cpu" data-price="1900" data-name="E5-2666v3">
         <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg">
         <div class="info">
             <div class="title">Xeon E5-2666 v3</div>
             <div class="price">1900 ₽</div>
-            <button class="add-btn" onclick="addToCart('E5-2666 v3', 1900)">В корзину</button>
+            <button class="add-btn" onclick="addToCart('E5-2666v3', 1900)">В корзину</button>
         </div>
     </div>
 </div>
 
-<button class="main-btn" id="footer-btn" style="display: none;" onclick="toggleCart(true)">Корзина: <span id="f-total">0</span> ₽</button>
+<button class="main-btn" id="footer-btn" style="display: none;" onclick="toggleCart(true)">Посмотреть корзину</button>
 
 <div id="cart-page">
-    <div onclick="toggleCart(false)" style="color: var(--btn); margin-bottom: 20px; cursor: pointer;">← Назад</div>
-    <h2>Оформление</h2>
-    <div id="cart-items"></div>
+    <div onclick="toggleCart(false)" style="color: var(--btn); margin-bottom: 20px; cursor: pointer;">← Вернуться в магазин</div>
+    <h2>Ваш заказ</h2>
+    <div id="cart-items-list"></div>
+    
+    <div class="total-row">
+        <span>Итого:</span>
+        <span id="cart-total-sum">0 ₽</span>
+    </div>
 
-    <p><b>Способ доставки:</b></p>
+    <p><b>Доставка:</b></p>
     <button class="d-btn active" onclick="setD(this, 'Самовывоз')">🏃 Самовывоз</button>
     <button class="d-btn" onclick="setD(this, 'СДЭК')">📦 СДЭК</button>
     <button class="d-btn" onclick="setD(this, 'Яндекс ПВЗ')">💛 Яндекс ПВЗ</button>
-    
     <p style="color:red; font-size:12px;">* Доставку оплачивает получатель</p>
     
-    <textarea id="order-comm" style="width:100%; border-radius:10px; padding:10px; margin-top:10px;" placeholder="Ваш комментарий..."></textarea>
+    <textarea id="order-comm" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd;" placeholder="Комментарий..."></textarea>
     
-    <button class="main-btn" style="position: static; margin-top: 20px;" onclick="checkout()">Отправить заказ</button>
+    <button class="main-btn" style="position: static; margin-top: 20px;" onclick="checkout()">Подтвердить заказ</button>
 </div>
 
 <script>
@@ -120,10 +121,10 @@
     }
 
     function searchItems() {
-        let query = document.getElementById('searchInput').value.toLowerCase();
+        let q = document.getElementById('searchInput').value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
-            let name = card.dataset.name.toLowerCase();
-            card.style.display = name.includes(query) ? 'flex' : 'none';
+            let n = card.dataset.name.toLowerCase();
+            card.style.display = n.includes(q) ? 'flex' : 'none';
         });
     }
 
@@ -142,11 +143,23 @@
         tg.HapticFeedback.impactOccurred('medium');
     }
 
+    function changeQty(name, delta) {
+        cart[name].count += delta;
+        if (cart[name].count <= 0) delete cart[name];
+        update();
+        renderCart();
+    }
+
     function update() {
         let total = 0;
-        for (let id in cart) total += cart[id].price * cart[id].count;
-        document.getElementById('f-total').innerText = total;
+        let count = 0;
+        for (let id in cart) {
+            total += cart[id].price * cart[id].count;
+            count += cart[id].count;
+        }
+        document.getElementById('footer-btn').innerText = `В корзине (${count}) — ${total} ₽`;
         document.getElementById('footer-btn').style.display = total > 0 ? 'block' : 'none';
+        document.getElementById('cart-total-sum').innerText = `${total} ₽`;
     }
 
     function toggleCart(st) {
@@ -158,11 +171,15 @@
         let h = '';
         for (let name in cart) {
             h += `<div class="cart-item">
-                <span>${name} (x${cart[name].count})</span>
-                <span>${cart[name].price * cart[name].count}₽</span>
+                <div class="item-info"><b>${name}</b><br>${cart[name].price} ₽</div>
+                <div class="item-controls">
+                    <button class="cnt-btn" onclick="changeQty('${name}', -1)">-</button>
+                    <span>${cart[name].count}</span>
+                    <button class="cnt-btn" onclick="changeQty('${name}', 1)">+</button>
+                </div>
             </div>`;
         }
-        document.getElementById('cart-items').innerHTML = h || 'Пусто';
+        document.getElementById('cart-items-list').innerHTML = h || '<p>Корзина пуста</p>';
     }
 
     function setD(el, type) {
@@ -172,13 +189,18 @@
     }
 
     function checkout() {
-        let text = `📦 НОВЫЙ ЗАКАЗ\n`;
-        for (let name in cart) text += `• ${name} x${cart[name].count}\n`;
-        text += `\n🚚 Доставка: ${delivery}\n💬: ${document.getElementById('order-comm').value}`;
+        let total = 0;
+        let text = `📦 НОВЫЙ ЗАКАЗ\n----------\n`;
+        for (let name in cart) {
+            text += `• ${name} x${cart[name].count} — ${cart[name].price * cart[name].count}₽\n`;
+            total += cart[name].price * cart[name].count;
+        }
+        text += `----------\n💰 ИТОГО: ${total}₽\n🚚: ${delivery}\n💬: ${document.getElementById('order-comm').value}`;
         tg.sendData(text);
     }
 </script>
 </body>
 </html>
+
 
 
