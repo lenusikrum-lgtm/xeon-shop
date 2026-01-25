@@ -14,126 +14,191 @@
             --sec-bg: var(--tg-theme-secondary-bg-color, #f5f5f5);
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
-
-        /* Сетка товаров 2 в ряд */
-        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .product-card { background: var(--sec-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
-        .product-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; }
-        .product-info { padding: 8px; flex-grow: 1; display: flex; flex-direction: column; }
-        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-        .product-desc { font-size: 11px; color: var(--hint); margin-bottom: 8px; line-height: 1.2; height: 26px; overflow: hidden; }
-        .product-price { font-size: 16px; font-weight: bold; color: #31b545; margin-top: auto; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
-        .add-to-cart-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 8px; border-radius: 8px; margin-top: 8px; font-weight: 600; font-size: 13px; }
+        /* Шапка с категориями и сортировкой */
+        .header { position: sticky; top: 0; background: var(--bg); z-index: 100; padding: 10px; border-bottom: 1px solid var(--sec-bg); }
+        .scroll-menu { display: flex; overflow-x: auto; gap: 8px; scrollbar-width: none; padding-bottom: 5px; }
+        .scroll-menu::-webkit-scrollbar { display: none; }
+        .chip { background: var(--sec-bg); padding: 8px 14px; border-radius: 20px; font-size: 13px; white-space: nowrap; cursor: pointer; border: 1px solid transparent; }
+        .chip.active { background: var(--btn); color: var(--btn-text); }
 
-        /* Экран корзины (скрыт по умолчанию) */
-        #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 1000; transition: 0.3s; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        /* Сетка товаров */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .card { background: var(--sec-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .info { padding: 10px; flex-grow: 1; }
+        .title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+        .desc { font-size: 11px; color: var(--hint); margin-bottom: 8px; min-height: 26px; }
+        .price { font-size: 16px; font-weight: 800; color: #31b545; }
+        .add-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 8px; border-radius: 8px; margin-top: 10px; font-weight: 600; }
+
+        /* Окно корзины */
+        #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 200; transition: 0.3s; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         #cart-page.active { left: 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--sec-bg); }
+        .counter { display: flex; align-items: center; gap: 10px; }
+        .count-btn { background: var(--sec-bg); border: none; width: 25px; height: 25px; border-radius: 5px; color: var(--text); }
 
-        .back-btn { background: none; border: none; color: var(--btn); font-size: 16px; margin-bottom: 20px; cursor: pointer; }
-        .delivery-option { display: flex; gap: 10px; margin: 20px 0; }
-        .delivery-btn { flex: 1; padding: 10px; border: 1px solid var(--btn); border-radius: 10px; background: none; color: var(--text); }
-        .delivery-btn.selected { background: var(--btn); color: var(--btn-text); }
+        /* Доставка и комментарий */
+        .section-title { font-size: 16px; font-weight: bold; margin: 20px 0 10px; }
+        .delivery-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        .d-btn { padding: 12px; border: 1px solid var(--btn); border-radius: 10px; background: none; color: var(--text); text-align: left; font-size: 14px; }
+        .d-btn.active { background: var(--btn); color: var(--btn-text); }
+        .hint-text { font-size: 12px; color: #e53935; margin-top: 10px; font-weight: bold; }
+        textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--hint); background: var(--bg); color: var(--text); box-sizing: border-box; }
 
-        /* Кнопка открытия корзины внизу */
-        .cart-footer { position: fixed; bottom: 0; width: 100%; padding: 15px; background: var(--bg); border-top: 1px solid var(--sec-bg); display: none; box-sizing: border-box; }
-        .view-cart-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: bold; }
+        /* Футер */
+        .footer { position: fixed; bottom: 0; width: 100%; padding: 15px; background: var(--bg); border-top: 1px solid var(--sec-bg); display: none; box-sizing: border-box; }
+        .main-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="main-page">
-        <div style="padding: 15px; font-size: 20px; font-weight: bold;">Магазин Xeon X99</div>
-        <div class="container" id="product-list">
-            <div class="product-card">
-                <img src="https://ae04.alicdn.com/kf/H215e96644f1c42268487779f64d0d34fG.jpg" onclick="showDetails('X99-BD4', 'Топовая плата с активным охлаждением и 4 каналами памяти. Идеальна для 2666v3.')">
-                <div class="product-info">
-                    <div class="product-title">Huananzhi X99-BD4</div>
-                    <div class="product-desc">Активный охлад, mATX, 4xDDR4</div>
-                    <div class="product-price">7500 ₽</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('X99-BD4', 7500)">В корзину</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg" onclick="showDetails('Xeon E5-2666 v3', '10 ядер, 20 потоков. Лучший выбор для игр на 2011-3 сокете.')">
-                <div class="product-info">
-                    <div class="product-title">E5-2666 v3</div>
-                    <div class="product-desc">10 ядер, 135W, мощный зверь</div>
-                    <div class="product-price">1900 ₽</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('E5-2666 v3', 1900)">В корзину</button>
-                </div>
-            </div>
+<div class="header">
+    <div class="scroll-menu" id="cats">
+        <div class="chip active" onclick="filter('all')">Все</div>
+        <div class="chip" onclick="filter('mb')">📟 Материнки</div>
+        <div class="chip" onclick="filter('cpu')">💎 Процессоры</div>
+        <div class="chip" onclick="filter('ram')">🧠 Память</div>
+        <div class="chip" onclick="filter('cool')">Кулер</div>
+        <div class="chip" onclick="filter('psu')">Блок питания</div>
+        <div class="chip" onclick="filter('ssd')">SSD 2,5"</div>
+        <div class="chip" onclick="filter('m2')">SSD M.2 NVME</div>
+        <div class="chip" onclick="filter('case')">Корпус</div>
+    </div>
+    <div class="scroll-menu" style="margin-top: 8px;">
+        <div class="chip" onclick="sort(1)">📈 Дешевле</div>
+        <div class="chip" onclick="sort(-1)">📉 Дороже</div>
+    </div>
+</div>
+
+<div class="grid" id="products">
+    <div class="card mb" data-price="7500">
+        <img src="https://ae04.alicdn.com/kf/H215e96644f1c42268487779f64d0d34fG.jpg">
+        <div class="info">
+            <div class="title">Huananzhi X99-BD4</div>
+            <div class="desc">4 канала, активный обдув VRM</div>
+            <div class="price">7500 ₽</div>
+            <button class="add-btn" onclick="addToCart('X99-BD4', 7500)">В корзину</button>
         </div>
     </div>
-
-    <div id="cart-page">
-        <button class="back-btn" onclick="closeCart()">← Назад к покупкам</button>
-        <h2>Ваша корзина</h2>
-        <div id="cart-items"></div>
-        
-        <h3>Способ получения:</h3>
-        <div class="delivery-option">
-            <button id="btn-self" class="delivery-btn selected" onclick="setDelivery('Самовывоз')">🏃 Самовывоз</button>
-            <button id="btn-delivery" class="delivery-btn" onclick="setDelivery('Доставка')">🚚 Доставка</button>
+    <div class="card cpu" data-price="1900">
+        <img src="https://ae04.alicdn.com/kf/H946452240974415891465224376527.jpg">
+        <div class="info">
+            <div class="title">Xeon E5-2666 v3</div>
+            <div class="desc">10 ядер, 135W, мощный CPU</div>
+            <div class="price">1900 ₽</div>
+            <button class="add-btn" onclick="addToCart('E5-2666 v3', 1900)">В корзину</button>
         </div>
-
-        <button class="view-cart-btn" style="margin-top: 20px;" onclick="checkout()">Оформить заказ</button>
     </div>
+</div>
 
-    <div class="cart-footer" id="cart-footer">
-        <button class="view-cart-btn" onclick="openCart()">Перейти в корзину (<span id="cart-total">0</span> ₽)</button>
+<div id="cart-page">
+    <div onclick="toggleCart(false)" style="color: var(--btn); margin-bottom: 20px;">← Назад</div>
+    <h2>Корзина</h2>
+    <div id="cart-items"></div>
+
+    <div class="section-title">Способ доставки</div>
+    <div class="delivery-grid">
+        <button class="d-btn active" onclick="setD(this, 'Самовывоз')">🏃 Самовывоз</button>
+        <button class="d-btn" onclick="setD(this, 'СДЭК')">📦 СДЭК</button>
+        <button class="d-btn" onclick="setD(this, 'Яндекс ПВЗ')">💛 Яндекс ПВЗ</button>
+        <button class="d-btn" onclick="setD(this, 'Яндекс Курьер')">🚴 Яндекс Курьер</button>
     </div>
+    <div class="hint-text">⚠️ Доставку оплачивает получатель при получении.</div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        let cart = [];
-        let deliveryType = 'Самовывоз';
+    <div class="section-title">Комментарий</div>
+    <textarea id="order-comm" rows="3" placeholder="Ваши пожелания..."></textarea>
 
-        function addToCart(name, price) {
-            cart.push({name, price});
-            tg.HapticFeedback.impactOccurred('medium');
-            updateFooter();
+    <button class="main-btn" style="margin-top: 20px;" onclick="checkout()">Оформить заказ</button>
+</div>
+
+<div class="footer" id="footer">
+    <button class="main-btn" onclick="toggleCart(true)">Корзина: <span id="f-total">0</span> ₽</button>
+</div>
+
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+    let cart = {}; // Храним как { 'Название': {price: 100, count: 1} }
+    let delivery = 'Самовывоз';
+
+    function filter(c) {
+        document.querySelectorAll('.chip').forEach(ch => ch.classList.remove('active'));
+        event.target.classList.add('active');
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.display = (c === 'all' || card.classList.contains(c)) ? 'flex' : 'none';
+        });
+    }
+
+    function sort(dir) {
+        let grid = document.getElementById('products');
+        let cards = Array.from(grid.children);
+        cards.sort((a, b) => (a.dataset.price - b.dataset.price) * dir);
+        grid.innerHTML = '';
+        cards.forEach(c => grid.appendChild(c));
+    }
+
+    function addToCart(name, price) {
+        if (cart[name]) cart[name].count++;
+        else cart[name] = { price: price, count: 1 };
+        update();
+        tg.HapticFeedback.impactOccurred('medium');
+    }
+
+    function changeCount(name, delta) {
+        cart[name].count += delta;
+        if (cart[name].count <= 0) delete cart[name];
+        update();
+        renderCart();
+    }
+
+    function update() {
+        let total = 0;
+        for (let id in cart) total += cart[id].price * cart[id].count;
+        document.getElementById('f-total').innerText = total;
+        document.getElementById('footer').style.display = total > 0 ? 'block' : 'none';
+    }
+
+    function toggleCart(st) {
+        if(st) renderCart();
+        document.getElementById('cart-page').classList.toggle('active', st);
+    }
+
+    function renderCart() {
+        let h = '';
+        for (let name in cart) {
+            h += `<div class="cart-item">
+                <div style="font-size:14px;">${name}<br><small>${cart[name].price}₽</small></div>
+                <div class="counter">
+                    <button class="count-btn" onclick="changeCount('${name}', -1)">-</button>
+                    <span>${cart[name].count}</span>
+                    <button class="count-btn" onclick="changeCount('${name}', 1)">+</button>
+                </div>
+            </div>`;
         }
+        document.getElementById('cart-items').innerHTML = h || 'Корзина пуста';
+    }
 
-        function updateFooter() {
-            const footer = document.getElementById('cart-footer');
-            if (cart.length > 0) {
-                footer.style.display = 'block';
-                const total = cart.reduce((s, i) => s + i.price, 0);
-                document.getElementById('cart-total').innerText = total;
-            }
-        }
+    function setD(el, type) {
+        document.querySelectorAll('.d-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        delivery = type;
+    }
 
-        function openCart() {
-            const itemsDiv = document.getElementById('cart-items');
-            itemsDiv.innerHTML = cart.map(i => `<div style="padding:10px; border-bottom:1px solid #eee;">${i.name} — <b>${i.price} ₽</b></div>`).join('');
-            document.getElementById('cart-page').classList.add('active');
+    function checkout() {
+        let comm = document.getElementById('order-comm').value;
+        let total = 0;
+        let text = `🚀 НОВЫЙ ЗАКАЗ\n----------\n`;
+        for (let name in cart) {
+            text += `• ${name} x${cart[name].count} — ${cart[name].price * cart[name].count}₽\n`;
+            total += cart[name].price * cart[name].count;
         }
-
-        function closeCart() {
-            document.getElementById('cart-page').classList.remove('active');
-        }
-
-        function setDelivery(type) {
-            deliveryType = type;
-            document.getElementById('btn-self').classList.toggle('selected', type === 'Самовывоз');
-            document.getElementById('btn-delivery').classList.toggle('selected', type === 'Доставка');
-        }
-
-        function showDetails(name, desc) {
-            tg.showAlert(`Описание ${name}:\n\n${desc}`);
-        }
-
-        function checkout() {
-            let total = cart.reduce((s, i) => s + i.price, 0);
-            let text = `🛒 НОВЫЙ ЗАКАЗ\n----------\n`;
-            cart.forEach((i, idx) => text += `${idx+1}. ${i.name}\n`);
-            text += `----------\n💰 ИТОГО: ${total} ₽\n📦 Способ: ${deliveryType}`;
-            tg.sendData(text);
-        }
-    </script>
+        text += `----------\n💰 ИТОГО: ${total}₽\n📦 Доставка: ${delivery}\n💬 Коммент: ${comm || 'нет'}\n\n*Доставка оплачивается покупателем.*`;
+        tg.sendData(text);
+    }
+</script>
 </body>
 </html>
 
