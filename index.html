@@ -481,16 +481,30 @@
         cards.forEach(c => grid.appendChild(c));
     }
 
-    function addToCart(name, price) {
-        if (cart[name]) cart[name].count++;
-        else cart[name] = { price: price, count: 1 };
+    function addToCart(name, price, stock) {
+        if (cart[name]) {
+            if (cart[name].count < stock) {
+                cart[name].count++;
+            } else {
+                tg.showAlert(`Извините, в наличии только ${stock} шт.`);
+                return;
+            }
+        } else {
+            cart[name] = { price: price, count: 1, stock: stock };
+        }
         update();
         tg.HapticFeedback.impactOccurred('medium');
     }
 
+
     function changeQty(name, delta) {
-        cart[name].count += delta;
-        if (cart[name].count <= 0) delete cart[name];
+        let item = cart[name];
+        if (delta > 0 && item.count >= item.stock) {
+            tg.showPopup({message: `Достигнут лимит товара в наличии (${item.stock} шт.)`});
+            return;
+        }
+        item.count += delta;
+        if (item.count <= 0) delete cart[name];
         update();
         renderCart();
     }
@@ -546,6 +560,7 @@
 </script>
 </body>
 </html>
+
 
 
 
