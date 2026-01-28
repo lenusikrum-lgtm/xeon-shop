@@ -31,6 +31,9 @@
         .title { font-size: 17px; font-weight: bold; line-height: 1.2; }
         .desc { font-size: 15px; font-weight: 400; line-height: 1.5; color: #555; }
         .price { font-size: 16px; font-weight: 800; color: #31b545; margin: 8px 0; }
+        .price-container { display: flex; flex-direction: column; margin: 8px 0; }
+        .old-price { font-size: 12px; text-decoration: line-through; color: var(--hint); }
+        .promo-info { font-size: 10px; color: #31b545; font-weight: bold; margin-top: 2px; }
         .add-btn { background: var(--btn); color: var(--btn-text); border: none; width: 100%; padding: 10px; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: auto; }
 
         #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 200; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 20px; box-sizing: border-box; overflow-y: auto; }
@@ -148,6 +151,19 @@
             <button class="add-btn" onclick="addToCart('Материнская плата JUXIESHI X99 RS9', 5500, 1)">В корзину</button>
         </div>
     </div>
+
+    <div class="card mb" data-price-solo="6100" data-price-promo="5500" data-name="Материнка X99" data-stock="1">
+    <img src="img/mb/x99.jpg">
+    <div class="info">
+        <div class="title">Huananzhi X99 (Акция!)</div>
+        <div class="price-container">
+            <span class="old-price" id="old-price-X99">6100 ₽</span>
+            <span class="price" id="price-X99" style="margin:0;">6100 ₽</span>
+            <span class="promo-info">🎁 -600₽ при покупке с памятью</span>
+        </div>
+        <button class="add-btn" onclick="addToCart('Материнка X99', 6100, 1)">В корзину</button>
+    </div>
+</div>
 
     <div class="card mb" data-price="6000" data-name="Материнская плата MACHINIST B9" data-stock="1">
         <div class="stock-tag">В наличии: 1 шт</div>
@@ -885,16 +901,49 @@
         renderCart();
     }
 
-    function update() {
-        let total = 0, count = 0;
-        for (let id in cart) {
-            total += cart[id].price * cart[id].count;
-            count += cart[id].count;
+function update() {
+    let total = 0;
+    let count = 0;
+    
+    // 1. Проверяем, есть ли в корзине ОЗУ
+    let hasRam = false;
+    for (let name in cart) {
+        // Проверяет, есть ли в названии любого товара в корзине слово "ОЗУ" или "RAM"
+        if (name.toUpperCase().includes('память') || name.toUpperCase().includes('RAM')) {
+            hasRam = true;
+            break;
         }
-        document.getElementById('footer-btn').innerText = `В корзине (${count}) — ${total} ₽`;
-        document.getElementById('footer-btn').style.display = total > 0 ? 'block' : 'none';
-        document.getElementById('total-sum').innerText = `${total} ₽`;
     }
+
+    // 2. Пересчитываем цены и общую сумму
+    for (let name in cart) {
+        // Если это наша акционная плата
+        if (name === 'Материнка X99') {
+            cart[name].price = hasRam ? 5500 : 6100;
+            
+            // Обновляем цену в карточке на витрине
+            let pDisplay = document.getElementById('price-X99');
+            let oldPDisplay = document.getElementById('old-price-X99');
+            if (pDisplay) {
+                pDisplay.innerText = cart[name].price + ' ₽';
+                // Скрываем/показываем зачеркнутую цену
+                oldPDisplay.style.display = hasRam ? 'inline' : 'none';
+                pDisplay.style.color = hasRam ? '#31b545' : 'var(--text)';
+            }
+        }
+        
+        total += cart[name].price * cart[name].count;
+        count += cart[name].count;
+    }
+
+    // 3. Обновляем интерфейс кнопок
+    const footerBtn = document.getElementById('footer-btn');
+    footerBtn.innerText = `В корзине (${count}) — ${total} ₽`;
+    footerBtn.style.display = total > 0 ? 'block' : 'none';
+    
+    const totalSumDisp = document.getElementById('total-sum');
+    if (totalSumDisp) totalSumDisp.innerText = `${total} ₽`;
+}
 
     function toggleCart(st) {
         if(st) renderCart();
@@ -936,6 +985,7 @@
 </script>
 </body>
 </html>
+
 
 
 
