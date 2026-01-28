@@ -38,6 +38,9 @@
         
         .order-badge { background: var(--sec-bg); color: var(--btn); padding: 6px 12px; border-radius: 10px; font-weight: 800; font-size: 12px; display: inline-block; margin-bottom: 15px; border: 1px solid var(--btn); }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--sec-bg); }
+        .card.out-of-stock {opacity: 0.7; /* Делаем карточку чуть бледнее */}
+        .card.out-of-stock .add-btn {background: #666 !important; cursor: not-allowed;}
+        .out-of-stock-overlay {position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); /* Темный фон поверх фото */ color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; text-transform: uppercase; z-index: 2; pointer-events: none; /* Чтобы надпись не мешала кликам */}
         .item-controls { display: flex; align-items: center; gap: 12px; }
         .cnt-btn { background: var(--sec-bg); border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 8px; font-weight: bold; color: var(--text); display: flex; align-items: center; justify-content: center; }
         
@@ -617,6 +620,164 @@
             <button class="add-btn" onclick="addToCart('NVME M.2 2280 диск Netac NV3000 2Тб', 13500, 1)">В корзину</button>
         </div>
     </div>
+
+    <div class="card psu" data-price="3400" data-name="Блок питания 1stPlayer BLACK.SIR 600W" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/psu/BLACK.SIR.jpg">
+        <div class="info">
+            <div class="title">Блок питания 1stPlayer BLACK.SIR 600W</div>
+            <div class="desc">80 PLUS, 1 × 4+4 pin CPU</div> 
+            <div class="price">3400 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания 1stPlayer BLACK.SIR 600W', 3400, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card psu" data-price="4000" data-name="Блок питания DЕЕРСООL РF600 600W" data-stock="2">
+        <div class="stock-tag">В наличии: 2 шт</div>
+        <img src="img/psu/РF600.jpg">
+        <div class="info">
+            <div class="title">Блок питания DЕЕРСООL РF600 600W</div>
+            <div class="desc">80 PLUS, 2 × 4+4 pin CPU</div> 
+            <div class="price">4000 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания DЕЕРСООL РF600 600W', 4000, 2)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card psu" data-price="4200" data-name="Блок питания DЕЕРСООL РF650 650W" data-stock="2">
+        <div class="stock-tag">В наличии: 2 шт</div>
+        <img src="img/psu/РF650.jpg">
+        <div class="info">
+            <div class="title">Блок питания DЕЕРСООL РF650 650W</div>
+            <div class="desc">80 PLUS, 2 × 4+4 pin CPU </div> 
+            <div class="price">4200 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания DЕЕРСООL РF650 650W', 4200, 2)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card psu" data-price="4400" data-name="Блок питания DЕЕРСООL РF700 700W" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/psu/РF700.jpg">
+        <div class="info">
+            <div class="title">Блок питания DЕЕРСООL РF700 700W</div>
+            <div class="desc">80 PLUS, 2 × 4+4 pin CPU </div> 
+            <div class="price">4400 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания DЕЕРСООL РF700 700W', 4400, 1)">В корзину</button>
+        </div>
+    </div>
+
+
+    <div class="card psu" data-price="4700" data-name="Блок питания Zalman DecaMax ZM700-LX3 700W 80+" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/psu/LX3(7)700W.png">
+        <div class="info">
+            <div class="title">Блок питания Zalman DecaMax ZM700-LX3 700W 80+</div>
+            <div class="desc">80 PLUS, 1 × 4-pin CPU и 1 × 8-pin CPU (4+4)</div> 
+            <div class="price">4700 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания Zalman DecaMax ZM700-LX3 700W 80+', 4700, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card psu" data-price="8500" data-name="Блок питания CHIEFTEC Eon ZPU-700S 700W" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/psu/ZPU700S.jpg">
+        <div class="info">
+            <div class="title">Блок питания CHIEFTEC Eon ZPU-700S 700W</div>
+            <div class="desc">80 PLUS, 2 × 4+4 pin CPU</div> 
+            <div class="price">4800 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания CHIEFTEC Eon ZPU-700S 700W', 4800, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card psu" data-price="5400" data-name="Блок питания 1STPLAYER ACK BRONZE, 850W, 80+ Bronze, ATX 3.1 (HA-850AA2)" data-stock="0">
+        <div class="stock-tag">В наличии: 0 шт</div>
+        <img src="img/psu/ACK_BRONZE.jpg">
+        <div class="info">
+            <div class="title">Блок питания 1STPLAYER ACK BRONZE, 850W, 80+ Bronze, ATX 3.1 (HA-850AA2)</div>
+            <div class="desc">80+ Bronze, 2 × 4+4 pin CPU, GPU 2x 6+2-pin, 16-pin (12V-2X6) 
+</div> 
+            <div class="price">5400 ₽</div>
+            <button class="add-btn" onclick="addToCart('Блок питания 1STPLAYER ACK BRONZE, 850W, 80+ Bronze, ATX 3.1 (HA-850AA2)', 5400, 0)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card m2" data-price="2000" data-name="Корпус EXEGATE mEVO-7803 (EX296979RUS)" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/m2/mEVO7803.jpg">
+        <div class="info">
+            <div class="title">Корпус EXEGATE mEVO-7803 (EX296979RUS)</div>
+            <div class="desc"></div> 
+            <div class="price">2000 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус EXEGATE mEVO-7803 (EX296979RUS)', 2000, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card m2" data-price="3500" data-name="Корпус ExeGate EVO-8243 Black" data-stock="2">
+        <div class="stock-tag">В наличии: 2 шт</div>
+        <img src="img/m2/EVO8243.jpeg">
+        <div class="info">
+            <div class="title">Корпус ExeGate EVO-8243 Black</div>
+            <div class="desc"></div> 
+            <div class="price">3500 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус ExeGate EVO-8243 Black', 3500, 2)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card case" data-price="4100" data-name="Корпус 1STPLAYER FIREROSE F3-A White" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/case/F3_A_White.jpg">
+        <div class="info">
+            <div class="title">Корпус 1STPLAYER FIREROSE F3-A White</div>
+            <div class="desc"></div> 
+            <div class="price">41000 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус 1STPLAYER FIREROSE F3-A White', 4100, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card case" data-price="4300" data-name="Корпус Zalman S2 TG (S2 TG) Black" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/case/S2_TG.jpg">
+        <div class="info">
+            <div class="title">Корпус Zalman S2 TG (S2 TG) Black</div>
+            <div class="desc"></div> 
+            <div class="price">4300 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус Zalman S2 TG (S2 TG) Black', 4300, 1)">В корзину</button>
+        </div>
+    </div>
+
+
+    <div class="card case" data-price="4400" data-name="Корпус 4FAN Indigon White" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/case/Indigon.jpg">
+        <div class="info">
+            <div class="title">Корпус 4FAN Indigon White</div>
+            <div class="desc"></div> 
+            <div class="price">4400 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус 4FAN Indigon White', 4400, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card case" data-price="5000" data-name="Корпус 1STPLAYER FIREBASE X5" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/case/X5.jpg">
+        <div class="info">
+            <div class="title">Корпус 1STPLAYER FIREBASE X5</div>
+            <div class="desc"></div> 
+            <div class="price">5000 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус 1STPLAYER FIREBASE X5', 5000, 1)">В корзину</button>
+        </div>
+    </div>
+
+    <div class="card case" data-price="5200" data-name="Корпус Zalman N7 PLUS V2 Black" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="img/case/N7PLUSV2.png">
+        <div class="info">
+            <div class="title">Корпус Zalman N7 PLUS V2 Black</div>
+            <div class="desc"></div> 
+            <div class="price">5200 ₽</div>
+            <button class="add-btn" onclick="addToCart('Корпус Zalman N7 PLUS V2 Black', 5200, 1)">В корзину</button>
+        </div>
+    </div>
+
     
 </div>
 
@@ -649,6 +810,26 @@
 </div>
 
 <script>
+    window.onload = function() {
+    document.querySelectorAll('.card').forEach(card => {
+      let stock = parseInt(card.dataset.stock);
+        if (stock === 0) {
+            card.classList.add('out-of-stock');
+            // Добавляем надпись программно, если её нет в HTML
+            if (!card.querySelector('.out-of-stock-overlay')) {
+      let overlay = document.createElement('div');
+                overlay.className = 'out-of-stock-overlay';
+                overlay.innerText = 'Нет в наличии';
+                card.prepend(overlay);
+            }
+            // Блокируем кнопку
+            let btn = card.querySelector('.add-btn');
+            btn.disabled = true;
+            btn.innerText = 'Нет в наличии';
+        }
+    });
+};
+    
     let tg = window.Telegram.WebApp;
     tg.expand();
     let cart = {};
@@ -758,6 +939,7 @@
 </script>
 </body>
 </html>
+
 
 
 
