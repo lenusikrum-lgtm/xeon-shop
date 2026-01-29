@@ -931,13 +931,13 @@
         <div class="title">Сборка компьютера на однопроцессорной материнке</div>
         
         <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
-        <select id="build-option" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice()">
+        <select id="build-option1" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice(1)">
             <option value="1500" data-suffix="Все комплектующие наши">Всё наше — 1500₽</option>
             <option value="2000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 2000₽</option>
             <option value="2500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 2500₽</option>
         </select>
-            <div class="price" id="build-price-display">1500 ₽</div>
-            <button class="add-btn" onclick="addBuildToCart()">В корзину</button>
+            <div class="price" id="build-price-display1">1500 ₽</div>
+            <button class="add-btn" onclick="addBuildToCart(1)">В корзину</button>
     </div>
 </div>
 
@@ -947,13 +947,13 @@
         <div class="title">Сборка компьютера на двухпроцессорной материнке</div>
         
         <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
-        <select id="build-option" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice()">
+        <select id="build-option2" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice(2)">
             <option value="2500" data-suffix="Все комплектующие наши">Всё наше — 2500₽</option>
             <option value="3000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 3000₽</option>
             <option value="3500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 3500₽</option>
         </select>
-            <div class="price" id="build-price-display">2500 ₽</div>
-            <button class="add-btn" onclick="addBuildToCart()">В корзину</button>
+            <div class="price" id="build-price-display2">2500 ₽</div>
+            <button class="add-btn" onclick="addBuildToCart(2)">В корзину</button>
     </div>
 </div>
 
@@ -1237,6 +1237,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
