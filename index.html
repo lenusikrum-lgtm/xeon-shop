@@ -66,15 +66,14 @@
     <option value="mb">📟 Материнки</option>
     <option value="cpu">💎 Процессоры</option>
     <option value="ram">🧠 Память</option>
-    <option value="cool">❄️ Кулеры</option>
+    <option value="gpu">🎮 Видеокарты</option> <option value="cool">❄️ Кулеры</option>
     <option value="psu">🔌 Блоки питания</option>
     <option value="ssd">💾 SSD 2.5"</option>
     <option value="m2">🚀 SSD NVMe M.2</option>
     <option value="case">🖥 Корпуса</option>
-    <option value="gpu">🎮 Видеокарты</option>
-    <option value="service">🔧 Сборка компьютера</option>
-    <option value="accessories">🖱 Аксессуары для ПК</option>
-    <option value="misc">🎯 Аксессуары разное</option>
+    <option value="build">🛠 Сборка компьютера</option> 
+    <option value="acc-pc">🖱 Аксессуары для ПК</option> 
+    <option value="acc-etc">🎁 Аксессуары разное</option> 
     <option value="faq">❓ F.A.Q.</option>
 </select>
         <button class="sort-btn" onclick="sort(1)">↑</button>
@@ -926,21 +925,48 @@
         </div>
     </div>
     
-<div class="card service" id="build-service-card" data-base-name="Сборка ПК" data-stock="999">
-    <img src="https://img.icons8.com/fluency/100/computer-case.png">
+<div class="card build" id="build-service-card" data-base-name="Сборка ПК" data-stock="999">
+    <img src="https://optim.tildacdn.pub/tild3338-3533-4033-a262-396531336232/-/resize/760x/-/format/webp/Screenshot_644444.jpg.webp">
     <div class="info">
-        <div class="title">Сборка компьютера</div>
+        <div class="title">Сборка компьютера на однопроцессорной материнке</div>
         
-        <label style="font-size: 10px; color: var(--hint);">Условия сборки:</label>
+        <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
         <select id="build-option" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice()">
-            <option value="1500" data-suffix="Все комплектующие наши">Всё наше (кроме в/к) — 1500₽</option>
-            <option value="2000" data-suffix="Свой БП или Корпус">Свой БП или Корпус — 2000₽</option>
-            <option value="2500" data-suffix="Свой БП и Корпус">Свой БП и Корпус — 2500₽</option>
+            <option value="1500" data-suffix="Все комплектующие наши">Всё наше — 1500₽</option>
+            <option value="2000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 2000₽</option>
+            <option value="2500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 2500₽</option>
         </select>
             <div class="price" id="build-price-display">1500 ₽</div>
             <button class="add-btn" onclick="addBuildToCart()">В корзину</button>
     </div>
 </div>
+
+    <div class="card build" id="build-service-card" data-base-name="Сборка ПК" data-stock="999">
+    <img src="https://optim.tildacdn.pub/tild3338-3533-4033-a262-396531336232/-/resize/760x/-/format/webp/Screenshot_644444.jpg.webp">
+    <div class="info">
+        <div class="title">Сборка компьютера на двухпроцессорной материнке</div>
+        
+        <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
+        <select id="build-option" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice()">
+            <option value="2500" data-suffix="Все комплектующие наши">Всё наше — 2500₽</option>
+            <option value="3000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 3000₽</option>
+            <option value="3500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 3500₽</option>
+        </select>
+            <div class="price" id="build-price-display">2500 ₽</div>
+            <button class="add-btn" onclick="addBuildToCart()">В корзину</button>
+    </div>
+</div>
+
+
+        <div class="card build" data-price="5200" data-name="Установка Windows" data-stock="999">
+        <img src="img/case/N7PLUSV2.png">
+        <div class="info">
+            <div class="title">Установка Windows 10</div>
+            <div class="desc"></div> 
+            <div class="price">500 ₽</div>
+            <button class="add-btn" onclick="addToCart('Установка Windows 10', 500)">В корзину</button>
+        </div>
+    </div>
     
     
 </div>
@@ -1148,6 +1174,33 @@ function clearCart() {
         }
     }
 }
+
+    function clearCart() {
+    // Нативное окно подтверждения
+    if (confirm("Удалить все товары из корзины?")) {
+        // 1. Очищаем корзину
+        for (let key in cart) {
+            delete cart[key];
+        }
+        
+        // 2. Обновляем интерфейс
+        update(); 
+        
+        // 3. Закрываем шторку корзины
+        toggleCart(false);
+        
+        // 4. ПЛАВНЫЙ СКРОЛЛ НАВЕРХ
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+        // 5. Вибрация для подтверждения успеха
+        if (window.Telegram.WebApp.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+        }
+    }
+}
     
     function renderCart() {
         let h = '';
@@ -1184,6 +1237,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
