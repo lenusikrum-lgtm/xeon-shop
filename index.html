@@ -72,7 +72,7 @@
     <option value="m2">🚀 SSD NVMe M.2</option>
     <option value="case">🖥 Корпуса</option>
     <option value="gpu">🎮 Видеокарты</option>
-    <option value="build">🔧 Сборка компьютера</option>
+    <option value="service">🔧 Сборка компьютера</option>
     <option value="accessories">🖱 Аксессуары для ПК</option>
     <option value="misc">🎯 Аксессуары разное</option>
     <option value="faq">❓ F.A.Q.</option>
@@ -925,7 +925,23 @@
             <button class="add-btn" onclick="addToCart('Корпус Zalman N7 PLUS V2 Black', 5200, 1)">В корзину</button>
         </div>
     </div>
-
+    
+<div class="card service" id="build-service-card" data-base-name="Сборка ПК" data-stock="999">
+    <img src="https://img.icons8.com/fluency/100/computer-case.png">
+    <div class="info">
+        <div class="title">Сборка компьютера</div>
+        
+        <label style="font-size: 10px; color: var(--hint);">Условия сборки:</label>
+        <select id="build-option" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice()">
+            <option value="1500" data-suffix="Все комплектующие наши">Всё наше (кроме в/к) — 1500₽</option>
+            <option value="2000" data-suffix="Свой БП или Корпус">Свой БП или Корпус — 2000₽</option>
+            <option value="2500" data-suffix="Свой БП и Корпус">Свой БП и Корпус — 2500₽</option>
+        </select>
+            <div class="price" id="build-price-display">1500 ₽</div>
+            <button class="add-btn" onclick="addBuildToCart()">В корзину</button>
+    </div>
+</div>
+    
     
 </div>
 
@@ -1085,6 +1101,32 @@ function update() {
         document.getElementById('cart-page').classList.toggle('active', st);
     }
 
+    // Обновляет цену на экране при выборе в списке
+function updateBuildPrice() {
+    const select = document.getElementById('build-option');
+    const priceDisplay = document.getElementById('build-price-display');
+    priceDisplay.innerText = select.value + ' ₽';
+}
+
+// Формирует название и цену перед добавлением в корзину
+function addBuildToCart() {
+    const select = document.getElementById('build-option');
+    const selectedOption = select.options[select.selectedIndex];
+    
+    const price = parseInt(select.value);
+    const suffix = selectedOption.getAttribute('data-suffix');
+    const fullName = `Сборка ПК (${suffix})`;
+
+    // Вызываем твою стандартную функцию добавления
+    addToCart(fullName, price, 999);
+    
+    // Легкая вибрация для подтверждения
+    if (window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
+}
+
+    
     function renderCart() {
         let h = '';
         for (let name in cart) {
@@ -1120,6 +1162,7 @@ function update() {
 </script>
 </body>
 </html>
+
 
 
 
