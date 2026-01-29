@@ -20,7 +20,7 @@
         .search-box { width: 100%; padding: 12px; border-radius: 12px; border: none; background: var(--sec-bg); color: var(--text); margin-bottom: 10px; box-sizing: border-box; outline: none; font-size: 14px; }
         
         .controls { display: flex; gap: 8px; }
-        .btn-select { flex: 1; background: var(--sec-bg); color: var(--text); border: 1px solid #ddd; padding: 10px; border-radius: 12px; font-size: 14px; outline: none; }
+        .btn-select { flex: 1; background: var(--sec-bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); /* Сделали границу мягче */ padding: 5px 10px; /* Уменьшили вертикальный отступ */ border-radius: 12px; /* Сохранили скругление */ font-size: 12px; /* Уменьшили шрифт */ height: 35px; /* Сделали компактнее по высоте */ outline: none; appearance: none; /* Убирает системные стрелочки в некоторых браузерах */ }
         .sort-btn { background: var(--sec-bg); border: 1px solid #ddd; padding: 10px; border-radius: 12px; color: var(--text); min-width: 45px; cursor: pointer; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
@@ -931,7 +931,7 @@
         <div class="title">Сборка компьютера на однопроцессорной материнке</div>
         
         <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
-        <select id="build-option1" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice(1)">
+        <select id="build-option1" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; font-size: 11px; padding: 5px; border-radius: 8px;" onchange="updateBuildPrice(1)">
             <option value="1500" data-suffix="Все комплектующие наши">Всё наше — 1500₽</option>
             <option value="2000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 2000₽</option>
             <option value="2500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 2500₽</option>
@@ -947,7 +947,7 @@
         <div class="title">Сборка компьютера на двухпроцессорной материнке</div>
         
         <label style="font-size: 10px; color: var(--hint);">Условия сборки (Место покупки видеокарты не влияет на стоимость сборки):</label>
-        <select id="build-option2" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; padding: 8px; border-radius: 8px;" onchange="updateBuildPrice(2)">
+        <select id="build-option2" class="btn-select" style="width: 100%; margin: 5px 0 10px 0; font-size: 11px; padding: 5px; border-radius: 8px;" onchange="updateBuildPrice(2)">
             <option value="2500" data-suffix="Все комплектующие наши">Всё наше — 2500₽</option>
             <option value="3000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 3000₽</option>
             <option value="3500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 3500₽</option>
@@ -959,7 +959,7 @@
 
 
         <div class="card build" data-price="5200" data-name="Установка Windows" data-stock="999">
-        <img src="img/case/N7PLUSV2.png">
+        <img src="img/build/win10.jpg">
         <div class="info">
             <div class="title">Установка Windows 10</div>
             <div class="desc"></div> 
@@ -1130,23 +1130,23 @@ function update() {
         document.getElementById('cart-page').classList.toggle('active', st);
     }
 
-    // Обновляет цену на экране при выборе в списке
-function updateBuildPrice() {
-    const select = document.getElementById('build-option');
-    const priceDisplay = document.getElementById('build-price-display');
+function updateBuildPrice(num) {
+    const select = document.getElementById('build-option' + num);
+    const priceDisplay = document.getElementById('build-price-display' + num);
     priceDisplay.innerText = select.value + ' ₽';
 }
 
-// Формирует название и цену перед добавлением в корзину
-function addBuildToCart() {
-    const select = document.getElementById('build-option');
+function addBuildToCart(num) {
+    const select = document.getElementById('build-option' + num);
     const selectedOption = select.options[select.selectedIndex];
+    
+    // Определяем тип сборки для названия в корзине
+    const typeName = (num === '1') ? "Сборка (1-процессорная)" : "Сборка (2-процессорная)";
     
     const price = parseInt(select.value);
     const suffix = selectedOption.getAttribute('data-suffix');
-    const fullName = `Сборка ПК (${suffix})`;
+    const fullName = `${typeName}: ${suffix}`;
 
-    // Вызываем твою стандартную функцию добавления
     addToCart(fullName, price, 999);
     
     // Легкая вибрация для подтверждения
@@ -1237,6 +1237,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
