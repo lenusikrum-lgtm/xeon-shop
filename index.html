@@ -951,7 +951,10 @@
     <div onclick="toggleCart(false)" style="color: var(--btn); margin-bottom: 15px; font-weight: bold; cursor: pointer;">← Вернуться к товарам</div>
     
     <div class="order-badge" id="order-id-label">ЗАКАЗ #----</div>
-    <h2>Корзина</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Корзина</h2>
+        <span onclick="clearCart()" style="color: #ff4444; cursor: pointer; font-size: 13px; font-weight: bold; padding: 5px;">🗑️ Очистить всё</span>
+    </div>
     
     <div id="cart-list"></div>
     
@@ -1125,7 +1128,26 @@ function addBuildToCart() {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
     }
 }
-
+function clearCart() {
+    // Используем нативное окно Telegram для подтверждения
+    if (confirm("Удалить все товары из корзины?")) {
+        // Очищаем объект корзины
+        for (let key in cart) {
+            delete cart[key];
+        }
+        
+        // Обновляем интерфейс
+        update(); 
+        
+        // Закрываем корзину и возвращаемся к товарам, т.к. она пуста
+        toggleCart(false);
+        
+        // Вибрация в Telegram
+        if (window.Telegram.WebApp.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+        }
+    }
+}
     
     function renderCart() {
         let h = '';
@@ -1162,6 +1184,7 @@ function addBuildToCart() {
 </script>
 </body>
 </html>
+
 
 
 
