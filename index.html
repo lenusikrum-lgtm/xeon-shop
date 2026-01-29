@@ -1133,23 +1133,29 @@ function update() {
 function updateBuildPrice(num) {
     const select = document.getElementById('build-option' + num);
     const priceDisplay = document.getElementById('build-price-display' + num);
-    priceDisplay.innerText = select.value + ' ₽';
+    if (select && priceDisplay) {
+        priceDisplay.innerText = select.value + ' ₽';
+    }
 }
 
 function addBuildToCart(num) {
     const select = document.getElementById('build-option' + num);
     const selectedOption = select.options[select.selectedIndex];
     
-    // Определяем тип сборки для названия в корзине
-    const typeName = (num === '1') ? "Сборка (1-процессорная)" : "Сборка (2-процессорная)";
-    
+    // Берем цену из выбранного пункта
     const price = parseInt(select.value);
     const suffix = selectedOption.getAttribute('data-suffix');
-    const fullName = `${typeName}: ${suffix}`;
+    
+    // Автоматически определяем тип сборки из заголовка карточки
+    // Это самый надежный способ: он найдет ближайший заголовок к вашему списку
+    const card = select.closest('.card');
+    const title = card.querySelector('.title').innerText;
+    
+    const fullName = `${title} (${suffix})`;
 
+    // Отправляем в общую функцию корзины
     addToCart(fullName, price, 999);
     
-    // Легкая вибрация для подтверждения
     if (window.Telegram.WebApp.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
     }
@@ -1237,6 +1243,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
