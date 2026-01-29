@@ -62,16 +62,21 @@
     <input type="text" class="search-box" id="searchInput" placeholder="Поиск комплектующих..." oninput="searchItems()">
     <div class="controls">
         <select class="btn-select" id="catFilter" onchange="filter(this.value)">
-            <option value="all">📦 Все разделы</option>
-            <option value="mb">📟 Материнки</option>
-            <option value="cpu">💎 Процессоры</option>
-            <option value="ram">🧠 Память</option>
-            <option value="cool">❄️ Кулеры</option>
-            <option value="psu">🔌 Блоки питания</option>
-            <option value="ssd">💾 SSD 2.5"</option>
-            <option value="m2">🚀 SSD NVMe M.2</option>
-            <option value="case">🖥 Корпуса</option>
-        </select>
+    <option value="all">📦 Все разделы</option>
+    <option value="mb">📟 Материнки</option>
+    <option value="cpu">💎 Процессоры</option>
+    <option value="ram">🧠 Память</option>
+    <option value="cool">❄️ Кулеры</option>
+    <option value="psu">🔌 Блоки питания</option>
+    <option value="ssd">💾 SSD 2.5"</option>
+    <option value="m2">🚀 SSD NVMe M.2</option>
+    <option value="case">🖥 Корпуса</option>
+    <option value="gpu">🎮 Видеокарты</option>
+    <option value="build">🔧 Сборка компьютера</option>
+    <option value="accessories">🖱 Аксессуары для ПК</option>
+    <option value="misc">🎯 Аксессуары разное</option>
+    <option value="faq">❓ F.A.Q.</option>
+</select>
         <button class="sort-btn" onclick="sort(1)">↑</button>
         <button class="sort-btn" onclick="sort(-1)">↓</button>
     </div>
@@ -1115,6 +1120,7 @@ function update() {
 </script>
 </body>
 </html>
+
 
 
 
