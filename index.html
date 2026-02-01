@@ -30,6 +30,12 @@
         .info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
         .title { font-size: 17px; font-weight: bold; line-height: 1.2; }
         .desc { font-size: 15px; font-weight: 400; line-height: 1.5; color: #555; }
+        .desc-list { list-style: none; /* Убираем стандартные точки */ padding: 0; /* Убираем отступы слева */ margin: 8px 0; /* Отступы сверху и снизу */ font-size: 11px; /* Делаем шрифт компактным */ color: var(--hint);  /* Используем цвет подсказок из темы TG */ line-height: 1.4;    /* Расстояние между строками */ }
+        .desc-list li { position: relative; padding-left: 18px;  /* Место под галочку */ margin-bottom: 3px; }
+/* Автоматически добавляем галочку перед каждым пунктом */
+        .desc-list li::before { content: "✅"; position: absolute; left: 0; font-size: 10px; }
+  
+        
         .price { font-size: 16px; font-weight: 800; color: #31b545; margin: 8px 0; }
         .price-container { display: flex; flex-direction: column; margin: 8px 0; }
         .old-price { font-size: 12px; text-decoration: line-through; color: var(--hint); }
@@ -828,7 +834,15 @@
         <img src="img/case/mEVO7803.jpg">
         <div class="info">
             <div class="title">Корпус EXEGATE mEVO-7803 (EX296979RUS)</div>
-            <div class="desc">✅В комплекте вентиляторы: 2 * RGB 120 мм спереди + 1 * 80 мм.&#10 ✅mATX.&#10 ✅170 x 315 x 355 мм.&#10 ✅БП сверху.&#10 ✅Кулер до 150 мм.&#10 ✅Видеокарта до 244 мм.&#10 ✅Продуваемый</div> 
+<ul class="desc-list">
+    <li>В комплекте: 2x120мм RGB, 1x80мм</li>
+    <li>Форм-фактор: mATX</li>
+    <li>Размеры: 170 x 315 x 355 мм</li>
+    <li>БП: Верхнее расположение</li>
+    <li>Кулер: до 150 мм</li>
+    <li>Видеокарта: до 244 мм</li>
+    <li>Особенности: Продуваемый корпус</li>
+</ul>
                  <a href="#" onclick="window.Telegram.WebApp.openLink('https://www.exegate.ru/catalogue/case/mevo/ex296979.html'); return false;" class="external-link" style="font-size: 11px; color: #2481cc; text-decoration: none; margin: 5px 0; display: block;">
             🌐 Оф. сайт
         </a>       
@@ -1178,7 +1192,6 @@
         tg.HapticFeedback.impactOccurred('medium');
     }
 
-
     function changeQty(name, delta) {
         let item = cart[name];
         if (delta > 0 && item.count >= item.stock) {
@@ -1353,6 +1366,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
