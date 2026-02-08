@@ -20,7 +20,26 @@
         .search-box { width: 100%; padding: 12px; border-radius: 12px; border: none; background: var(--sec-bg); color: var(--text); margin-bottom: 10px; box-sizing: border-box; outline: none; font-size: 14px; }
         
         .controls { display: flex; gap: 8px; }
-        .btn-select { flex: 1; background: var(--sec-bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); /* Сделали границу мягче */ padding: 5px 10px; /* Уменьшили вертикальный отступ */ border-radius: 12px; /* Сохранили скругление */ font-size: 12px; /* Уменьшили шрифт */ height: 35px; /* Сделали компактнее по высоте */ outline: none; appearance: none; /* Убирает системные стрелочки в некоторых браузерах */ }
+        .btn-select { flex: 1; background-color: var(--sec-bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; font-size: 13px; height: 38px; padding: 5px 35px 5px 12px; /* 35px справа резервируем под иконку */ outline: none; cursor: pointer;
+
+    /* 1. Убираем стандартную стрелку браузера */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* 2. Добавляем свою иконку стрелочки (SVG) */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='grey' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center; /* Отступ 12px справа */
+    background-size: 14px; /* Размер иконки */
+}
+
+/* Для темной темы делаем стрелочку светлой */
+@media (prefers-color-scheme: dark) {
+         .btn-select {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+}
         .sort-btn { background: var(--sec-bg); border: 1px solid #ddd; padding: 10px; border-radius: 12px; color: var(--text); min-width: 45px; cursor: pointer; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
@@ -1442,6 +1461,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
