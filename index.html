@@ -68,9 +68,9 @@
 /* Контейнер с информацией */
         .info { padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; /* Прижимаем всё к верху */}
 /* Цена и кнопка должны быть всегда внизу */
-        .info .price { margin-top: auto; /* Выталкивает цену вниз */ padding-top: 10px;}
+        .info.price { margin-top: auto; /* Выталкивает цену вниз */ padding-top: 10px;}
 /* Название товара в карточке */
-        .info .title { font-weight: 800; font-size: 15px; /* Чуть уменьшим, чтобы влезало больше текста */ line-height: 1.2; min-height: 2.4em; /* Резервируем место под 2 строки, чтобы карточки были ровными */ margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; /* Максимум 3 строки, дальше триточие */ -webkit-box-orient: vertical; overflow: hidden; }
+        .info.title { font-weight: 800; font-size: 15px; /* Чуть уменьшим, чтобы влезало больше текста */ line-height: 1.2; min-height: 2.4em; /* Резервируем место под 2 строки, чтобы карточки были ровными */ margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; /* Максимум 3 строки, дальше триточие */ -webkit-box-orient: vertical; overflow: hidden; }
         .desc { font-size: 15px; font-weight: 400; line-height: 1.5; color: #555; }
         .desc-list { list-style: none; padding: 0; margin: 10px 0;      /* Увеличили отступы */ font-size: 13px; /* Сделали шрифт больше (был 11px) */ color: var(--text);  /* Цвет текста более контрастный */ line-height: 1.5;    /* Увеличили межстрочный интервал для легкости чтения */ }
         .desc-list li { position: relative; padding-left: 22px;  /* Чуть больше места под эмодзи */ margin-bottom: 4px; }
@@ -1482,6 +1482,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
