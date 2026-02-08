@@ -66,17 +66,19 @@
         .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
         .stock-tag { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
 /* Контейнер с информацией */
-        .info { padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; /* Прижимаем всё к верху */}
+        .info { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; /* Позволяет блоку инфо занимать всю высоту карточки */ }
+        .price { margin-top: auto; /* ЭТО КЛЮЧЕВОЙ МОМЕНТ: выталкивает цену и кнопку вниз */ font-weight: bold; color: #4CAF50; font-size: 18px; margin-bottom: 8px; /* Отступ от цены до кнопки */}
 /* Цена и кнопка должны быть всегда внизу */
         .info.price { margin-top: auto; /* Выталкивает цену вниз */ padding-top: 10px;}
 /* Название товара в карточке */
-        .info.title { font-weight: 800; font-size: 15px; /* Чуть уменьшим, чтобы влезало больше текста */ line-height: 1.2; min-height: 2.4em; /* Резервируем место под 2 строки, чтобы карточки были ровными */ margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; /* Максимум 3 строки, дальше триточие */ -webkit-box-orient: vertical; overflow: hidden; }
-        .desc { font-size: 15px; font-weight: 400; line-height: 1.5; color: #555; }
-        .desc-list { list-style: none; padding: 0; margin: 10px 0;      /* Увеличили отступы */ font-size: 13px; /* Сделали шрифт больше (был 11px) */ color: var(--text);  /* Цвет текста более контрастный */ line-height: 1.5;    /* Увеличили межстрочный интервал для легкости чтения */ }
-        .desc-list li { position: relative; padding-left: 22px;  /* Чуть больше места под эмодзи */ margin-bottom: 4px; }
-        .desc-list li::before { content: "✅"; position: absolute; left: 0; font-size: 12px;     /* Размер галочки под стать тексту */ }
+        .info.title { font-weight: 800; font-size: 16px; /* Чуть уменьшим, чтобы влезало больше текста */ line-height: 1.2; min-height: 2.4em; /* Резервируем место под 2 строки, чтобы карточки были ровными */ margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; /* Максимум 3 строки, дальше триточие */ -webkit-box-orient: vertical; overflow: hidden; color: var(--text); }
+        /* Общие стили для обычного текста и списков */
+        .desc, .desc-list { font-size: 13px; color: var(--hint);   /* Цвет из темы Telegram (серый) */ line-height: 1.4; margin-bottom: 15px; padding: 0; list-style: none;     /* Убираем стандартные точки у списков */ }
+/* Специфичные настройки только для списка с галочками */
+        .desc-list li { position: relative; padding-left: 22px;   /* Место под галочку */ margin-bottom: 4px; }
+        .desc-list li::before { content: "✅"; position: absolute; left: 0; font-size: 12px; }
+       
         
-        .price { font-size: 16px; font-weight: 800; color: #31b545; margin: 8px 0; }
         .price-container { display: flex; flex-direction: column; margin: 8px 0; }
         .old-price { font-size: 12px; text-decoration: line-through; color: var(--hint); }
         .promo-info { font-size: 10px; color: #31b545; font-weight: bold; margin-top: 2px; }
@@ -1482,6 +1484,7 @@ function clearCart() {
 </script>
 </body>
 </html>
+
 
 
 
