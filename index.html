@@ -56,12 +56,25 @@
         }
 
         /* Сетка товаров */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .card { 
-            background: var(--sec-bg); border-radius: 15px; 
-            overflow: hidden; display: flex; flex-direction: column; 
-            border: 1px solid rgba(0,0,0,0.05); position: relative;
+        .grid { 
+             display: grid; 
+        /* На мобилках минимум 140px, на компах будет 3-5 колонок автоматически */
+             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+             gap: 12px; 
+             padding: 12px; 
+             max-width: 1200px; /* Чтобы на сверхшироких мониторах витрина не разъезжалась */
+             margin: 0 auto;
         }
+
+         @media (min-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .card img {
+            height: 200px; /* Фиксируем высоту фото на ПК для стройности ряда */
+        }
+    }
         .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
         .stock-tag { 
             position: absolute; top: 6px; right: 6px; 
@@ -227,11 +240,30 @@
         document.getElementById('total-sum').innerText = total + ' ₽';
     }
 
-    function toggleCart(st) {
-        if(st) renderCart();
-        document.getElementById('cart-page').classList.toggle('active', st);
+function toggleCart(st) {
+        const cartPage = document.getElementById('cart-page');
+        
+        if (st) {
+            renderCart();
+            cartPage.classList.add('active');
+            // Добавляем запись в историю браузера, чтобы "Назад" закрывал корзину
+            window.history.pushState({page: 'cart'}, "Корзина", "#cart");
+        } else {
+            cartPage.classList.remove('active');
+            // Если закрываем вручную кнопкой "К товарам", убираем хэш из адреса
+            if (window.location.hash === "#cart") {
+                window.history.back();
+            }
+        }
     }
 
+    // Слушаем нажатие кнопки "Назад" в браузере
+    window.onpopstate = function(event) {
+        // Если мы ушли с состояния "cart", просто закрываем шторку
+        document.getElementById('cart-page').classList.remove('active');
+    };
+
+    // Обновим функцию renderCart, чтобы кнопка "К товарам" работала корректно
     function renderCart() {
         let h = '';
         for (let name in cart) {
