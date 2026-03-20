@@ -185,7 +185,15 @@
         <option value="СДЭК">🚛 СДЭК (оплата доставки при получении)</option>
         <option value="Яндекс Курьер">🚴 Яндекс Курьер (заказываете самостоятельно)</option>
     </select>
+<label style="font-weight: bold; font-size: 14px;">Телефон для связи:</label>
+<input type="tel" id="userPhone" class="btn-select" style="width: 100%; margin: 10px 0; background: var(--sec-bg);" placeholder="+7 (___) ___-__-__">
 
+<label style="font-weight: bold; font-size: 14px;">Где удобнее ответить:</label>
+<select id="messenger" class="btn-select" style="width: 100%; margin: 10px 0 20px 0; height: 45px;">
+    <option value="MAX">💬 MAX</option>
+    <option value="Telegram">✈️ Telegram</option>
+    <option value="WhatsApp">📞 WhatsApp / Звонок</option>
+</select>
     <textarea id="comment" style="width:100%; border-radius:12px; padding:15px; border:1px solid #ddd; background:var(--sec-bg); color:var(--text); font-family:inherit; font-size: 14px;" rows="4" placeholder="Введите адрес ПВЗ или комментарий к заказу..."></textarea>
     
     <div class="prepay-notice">
@@ -257,40 +265,48 @@
     }
 
     // ОТПРАВКА В GOOGLE ФОРМУ
-    function sendToGoogle() {
-        if (Object.keys(cart).length === 0) return;
+function sendToGoogle() {
+    if (Object.keys(cart).length === 0) return;
 
-        // !!! ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА СВОЮ ИЗ GOOGLE ФОРМЫ !!!
-        const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V9lgwR0XVRdGEbRj-nhGM7qa7ZP3fjEol_uVqIWHuv0RQ/viewform?usp=publish-editor';
-        
-        let orderDetails = "";
-        let total = 0;
-        for (let name in cart) {
-            orderDetails += `${name} (x${cart[name].count}); `;
-            total += cart[name].price * cart[name].count;
-        }
-
-        const formData = new FormData();
-  // ПРИВЯЗКА ПОЛЕЙ (замените номера на свои из шага 2)
-    formData.append('entry.1235920526', orderId);          // Номер заказа
-    formData.append('entry.2047625780', orderDetails);     // Состав
-    formData.append('entry.149902418', total + ' ₽');     // Сумма
-    formData.append('entry.1527545222', document.getElementById('delivery').value); // Доставка
-    formData.append('entry.1461400834', document.getElementById('comment').value);  // Комментарий
-
-        fetch(formURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: formData
-        }).then(() => {
-            alert('✅ Заказ успешно оформлен! Мы свяжемся с вами в ближайшее время.');
-            cart = {};
-            updateUI();
-            toggleCart(false);
-        }).catch(() => {
-            alert('Ошибка при отправке. Пожалуйста, проверьте интернет-соединение.');
-        });
+    // ИСПРАВЛЕННАЯ ССЫЛКА (должна заканчиваться на /formResponse)
+    const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V91gwR0XVRdGEbRj-nhGM7qa7ZP3fjEo1_uVqIWHuv0RQ/formResponse';
+    
+    let orderDetails = "";
+    let total = 0;
+    for (let name in cart) {
+        orderDetails += `${name} (x${cart[name].count}); `;
+        total += cart[name].price * cart[name].count;
     }
+
+    // Собираем данные
+    const formData = new FormData();
+    
+    // ВАЖНО: Добавьте в Google форму новые вопросы "Телефон" и "Мессенджер" 
+    // и замените entry.ID на реальные
+    formData.append('entry.1235920526', orderId);           // Номер заказа
+    formData.append('entry.204762580', orderDetails);       // Состав
+    formData.append('entry.149902418', total + ' ₽');       // Сумма
+    formData.append('entry.152754222', document.getElementById('delivery').value); // Доставка
+    formData.append('entry.1461400834', document.getElementById('comment').value); // Комментарий
+    
+    // Новые поля:
+    formData.append('entry.1375472207', document.getElementById('userPhone').value); 
+    formData.append('entry.687754715', document.getElementById('messenger').value);
+
+    fetch(formURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+    }).then(() => {
+        alert('✅ Заказ успешно отправлен! Ожидайте сообщения в выбранном мессенджере.');
+        cart = {};
+        updateUI();
+        toggleCart(false);
+    }).catch((error) => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка. Проверьте соединение или напишите нам напрямую.');
+    });
+}
 
     // ПОИСК И ФИЛЬТРЫ
     function searchItems() {
