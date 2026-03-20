@@ -193,13 +193,13 @@
 
     function sendToGoogle() {
         if (Object.keys(cart).length === 0) return;
-        const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V91gwR0XVRdGEbRj-nhGM7qa7ZP3fjEo1_uVqIWHuv0RQ/formResponse';
+        const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V9lgwR0XVRdGEbRj-nhGM7qa7ZP3fjEol_uVqIWHuv0RQ/formResponse';
         let details = "";
         for (let name in cart) { details += `${name} (x${cart[name].count}); \n`; }
 
         const formData = new FormData();
         formData.append('entry.1235920526', orderId);
-        formData.append('entry.204762580', details);
+        formData.append('entry.2047625780', details);
         formData.append('entry.149902418', document.getElementById('total-sum').innerText + ' ₽');
         formData.append('entry.152754222', document.getElementById('delivery').value);
         formData.append('entry.1461400834', document.getElementById('comment').value);
