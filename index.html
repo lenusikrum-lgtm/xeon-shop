@@ -274,25 +274,21 @@ function sendToGoogle() {
     let orderDetails = "";
     let total = 0;
     for (let name in cart) {
-        orderDetails += `${name} (x${cart[name].count}); `;
+        // Формируем красивую строку: Название (xКол-во) — Цена
+        orderDetails += `${name} (x${cart[name].count}) - ${cart[name].price * cart[name].count}₽; \n`;
         total += cart[name].price * cart[name].count;
     }
 
-    // Собираем данные
     const formData = new FormData();
     
-    // ВАЖНО: Добавьте в Google форму новые вопросы "Телефон" и "Мессенджер" 
-    // и замените entry.ID на реальные
-    formData.append('entry.1235920526', orderId);           // Номер заказа
-    formData.append('entry.204762580', orderDetails);       // Состав
-    formData.append('entry.149902418', total + ' ₽');       // Сумма
-    formData.append('entry.152754222', document.getElementById('delivery').value); // Доставка
+    // ВНИМАТЕЛЬНО проверьте эти два ID ниже!
+    formData.append('entry.1235920526', orderId);           // ID заказа
+    formData.append('entry.2047625780', orderDetails);       // Состав (ПРОВЕРИТЬ ID!)
+    formData.append('entry.1527545222', total + ' ₽');       // Сумма
+    formData.append('entry.152754222', document.getElementById('delivery').value); // Доставка (ПРОВЕРИТЬ ID!)
     formData.append('entry.1461400834', document.getElementById('comment').value); // Комментарий
-    
-    // Новые поля:
     formData.append('entry.1375472207', document.getElementById('userPhone').value); 
     formData.append('entry.687754715', document.getElementById('messenger').value);
-
     fetch(formURL, {
         method: 'POST',
         mode: 'no-cors',
