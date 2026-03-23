@@ -62,34 +62,295 @@
     <input type="text" class="search-box" id="searchInput" placeholder="Поиск деталей..." oninput="searchItems()">
     <div class="controls">
         <select class="btn-select" id="catFilter" onchange="filter(this.value)">
-            <option value="all">📦 Все разделы</option>
-            <option value="mb">📟 Материнки</option>
-            <option value="build">🛠 Сборка ПК</option>
+    <option value="all">📦 Все разделы</option>
+    <option value="mb">📟 Материнки</option>
+    <option value="cpu">💎 Процессоры</option>
+    <option value="ram">🧠 Память</option>
+    <option value="gpu">🎮 Видеокарты</option> 
+    <option value="cool">❄️ Кулеры</option>
+    <option value="psu">🔌 Блоки питания</option>
+    <option value="ssd">💾 SSD 2.5"</option>
+    <option value="m2">🚀 SSD NVMe M.2</option>
+    <option value="case">🖥 Корпуса</option>
+    <option value="build">🛠 Сборка компьютера</option> 
+    <option value="acc-pc">🖱 Аксессуары для ПК</option> 
+    <option value="acc-etc">🎁 Аксессуары разное</option> 
+    <option value="faq">❓ F.A.Q.</option>
+
         </select>
         <button class="btn-select" style="flex:0; min-width:50px" onclick="sort(1)">↑₽</button>
     </div>
 </div>
 
 <div class="grid" id="products">
-    <div class="card mb" data-price="4800" data-name="Материнская плата ZX-X99D4M4" data-stock="1">
+    
+<div class="grid" id="products">
+    <div class="card mb" data-price="4000" data-name="Материнская плата KEYIYOU X99 K4" data-stock="1">
         <div class="stock-tag">В наличии: 1 шт</div>
-        <img src="https://optim.tildacdn.pub/tild6162-3330-4633-b762-643961393634/-/resize/582x/-/format/webp/Screenshot_34.jpg.webp">
+        <img src="https://optim.tildacdn.pub/tild3361-6565-4335-b536-636639613535/-/resize/741x/-/format/webp/Screenshot_19.jpg.webp">
         <div class="info">
-            <div class="title">Материнская плата ZX-X99D4M4</div>
+            <div class="title">Материнская плата KEYIYOU X99 K4</div>
             <ul class="desc-list">
-                <li>LGA 2011-3</li>
-                <li>4*DDR4, 2*M.2</li>
+                <li>Dual 4*DDR4, ≤128Гб</li>
+                <li>Чипсет C612</li>
+                <li>1*M.2 NVME PCIe 3.0 X4</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>Разъем TPM 2.0</li>
+                <li>4*USB 2.0, 2*USB 3.0, GgE</li>
+                <li>mATX(micro atx). 240*190мм</li>
             </ul>
             <div class="card-links">
-                <a href="https://project7726687.tilda.ws/page67657251.html" target="_blank">🔍 Подробнее</a>
-                <a href="https://www.intel.com" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+                <a href="https://project7726687.tilda.ws/page67589239.html" target="_blank">🔍 Подробнее</a>
             </div>
             <div class="price-container">
-                <div class="price">4800 ₽</div>
-                <button class="add-btn" onclick="addToCart('Материнская плата ZX-X99D4M4', 4800, 1)">В корзину</button>
+                <div class="price">4000 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата KEYIYOU X99 K4', 4000, 1)">В корзину</button>
             </div>
         </div>
     </div>
+
+    <div class="card mb" data-price="6100" data-name="Материнская плата JUXIESHI X99 RS9" data-stock="0">
+        <img src="https://optim.tildacdn.pub/tild3639-3733-4138-a137-643761356439/-/resize/698x/-/format/webp/Screenshot_132.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата JUXIESHI X99 RS9 (Акция!)</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>2*M.2 NVME PCIe 3.0 X4, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>6*SATA 3.0</li>
+                <li>Пост-код</li>
+                <li>Активное охлаждение зоны VRM</li>
+                <li>4*USB 2.0, 2*USB 3.0, GgE</li>
+                <li>mATX(micro atx). 235*200мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67771307.html" target="_blank">🔍 Подробнее</a>
+                <a href="https://www.juxieshi.com.cn/product/97.html" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div style="display: flex; flex-direction: column;">
+                    <span class="old-price" style="text-decoration: line-through; font-size: 0.8em; color: var(--hint);">6100 ₽</span>
+                    <div class="price">6100 ₽</div>
+                </div>
+                <button class="add-btn" onclick="addToCart('Материнская плата JUXIESHI X99 RS9', 6100, 0)">В корзину</button>
+            </div>
+            <div class="promo-info" style="font-size: 10px; margin-top: 5px;">🎁 -600₽ при покупке с памятью</div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="6500" data-name="Материнская плата Huananzhi QD4 3.0" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild6561-3334-4562-b933-656235383531/-/resize/719x/-/format/webp/Screenshot_93.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата Huananzhi QD4 3.0</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>3*M.2 NVME PCIe 3.0 X4, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>6*SATA 3.0</li>
+                <li>4*USB 2.0, 4*USB 3.0, GgE</li>
+                <li>mATX(micro atx). 245*190мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67590423.html" target="_blank">🔍 Подробнее</a>
+                <a href="http://www.huananzhi.com/en/more.php?lm=10&id=745" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">6500 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата Huananzhi QD4 3.0', 6500, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="6700" data-name="Материнская плата Machinist MR9A PRO" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild3462-3832-4463-b763-356437363263/-/resize/712x/-/format/webp/Screenshot_156.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата Machinist MR9A PRO</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>2*M.2 NVME PCIe 3.0 X4, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>Пост-код, Актив. охлаждение VRM</li>
+                <li>Разъем TPM2.0, 2*PCIe X16</li>
+                <li>4*SATA 3.0, 2*SATA 2.0</li>
+                <li>6*USB 2.0, 2*USB 3.0, GgE</li>
+                <li>ATX. 285*215мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page124987946.html" target="_blank">🔍 Подробнее</a>
+                <a href="https://www.juxieshi.com.cn/en/product/127.html" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">6700 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата Machinist MR9A PRO', 6700, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="6800" data-name="Материнская плата Machinist K9" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild6534-3536-4266-a366-383335363032/-/resize/760x/-/format/webp/Screenshot_202.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата Machinist K9</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>2*M.2 NVME PCIe 3.0 X4, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>Пост-код, Актив. охлаждение VRM</li>
+                <li>Разъем TPM2.0, 1*PCIe X16</li>
+                <li>9*SATA 3.0</li>
+                <li>4*USB 2.0, 4*USB 3.0, GgE</li>
+                <li>mATX(micro atx). 235*200мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67771785.html" target="_blank">🔍 Подробнее</a>
+                <a href="https://www.juxieshi.com.cn/en/product/123.html" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">6800 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата Machinist K9', 6800, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="7000" data-name="Материнская плата Machinist MR9A PRO MAX" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild3062-6638-4339-b237-663237656232/-/resize/760x/-/format/webp/Screenshot_77.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата Machinist MR9A PRO MAX</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>1*NVME, 1*SATA M.2, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>Кнопки Power/Reset, Пост-код</li>
+                <li>Актив. охлаждение VRM, TPM2.0</li>
+                <li>2*PCIe X16 (Metal)</li>
+                <li>6*SATA 3.0, 6*USB 2.0, 2*USB 3.0</li>
+                <li>ATX. 300*215мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page124973756.html" target="_blank">🔍 Подробнее</a>
+                <a href="https://www.juxieshi.com.cn/en/product/119.html" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">7000 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата Machinist MR9A PRO MAX', 7000, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="7500" data-name="Материнская плата JGINYUE TITANIUM D4 PLUS" data-stock="3">
+        <div class="stock-tag">В наличии: 3 шт</div>
+        <img src="https://optim.tildacdn.pub/tild6461-6264-4761-b863-356638666132/-/resize/687x/-/format/webp/Screenshot_152.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата JGINYUE TITANIUM D4 PLUS</div>
+            <ul class="desc-list">
+                <li>Quad 4*DDR4, ≤128Гб</li>
+                <li>Чипсет C612</li>
+                <li>2*M.2 NVME PCIe 3.0 X4, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>8*SATA 3.0</li>
+                <li>Пост-код, Кнопки Power/Reset</li>
+                <li>Активное охлаждение зоны VRM</li>
+                <li>4*USB 2.0, 4*USB 3.0, GgE</li>
+                <li>ATX. 300*220мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67667635.html" target="_blank">🔍 Подробнее</a>
+                <a href="https://jginyue.com/index/Article/show/cat_id/48/id/209" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">7500 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата JGINYUE TITANIUM D4 PLUS', 7500, 3)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="11500" data-name="Материнская плата HUANANZHI X99 F8" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild3637-3730-4630-a230-376230313866/-/resize/760x/-/format/webp/Screenshot_6.jpg.webp">
+        <div class="info">
+            <div class="title">Материнская плата HUANANZHI X99 F8</div>
+            <ul class="desc-list">
+                <li>Quad 8*DDR4, ≤256Гб</li>
+                <li>Чипсет C612</li>
+                <li>2*M.2 NVME, M.2 Wi-Fi</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>8*SATA 3.0, 2*PCIe X16</li>
+                <li>Пост-код, Кнопки Power/Reset</li>
+                <li>Активное охлаждение зоны VRM</li>
+                <li>4*USB 2.0, 4*USB 3.0, GgE</li>
+                <li>ATX. 300*244мм</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67771959.html" target="_blank">🔍 Подробнее</a>
+                <a href="http://www.huananzhi.com/en/more.php?lm=10&id=305" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">11500 ₽</div>
+                <button class="add-btn" onclick="addToCart('Материнская плата HUANANZHI X99 F8', 11500, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="15000" data-name="Двухпроцессорная материнская плата HUANANZHI X99 F8D" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild3933-3533-4631-b136-393066383962/-/resize/760x/-/format/webp/Screenshot_104.jpg.webp">
+        <div class="info">
+            <div class="title">Двухпроцессорная материнская плата HUANANZHI X99 F8D</div>
+            <ul class="desc-list">
+                <li>Quad 8*DDR4, ≤256Гб</li>
+                <li>Чипсет C612, 2*M.2 NVME</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>3*PCIe 3.0 X16, 10*SATA 3.0</li>
+                <li>Пост-код, Кнопки Power/Reset</li>
+                <li>Активное охлаждение зоны VRM</li>
+                <li>4*USB 2.0, 4*USB 3.0, 2*GgE</li>
+                <li>eATX. 310*290мм</li>
+                <li>БП с 2*CPU8 pin</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67772135.html" target="_blank">🔍 Подробнее</a>
+                <a href="http://www.huananzhi.com/en/more.php?lm=10&id=309" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">15000 ₽</div>
+                <button class="add-btn" onclick="addToCart('Двухпроцессорная материнская плата HUANANZHI X99 F8D', 15000, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb" data-price="17500" data-name="Двухпроцессорная материнская плата HUANANZHI X99 F8D PLUS" data-stock="1">
+        <div class="stock-tag">В наличии: 1 шт</div>
+        <img src="https://optim.tildacdn.pub/tild6436-6139-4938-b966-613837386164/-/resize/760x/-/format/webp/Screenshot_69.jpg.webp">
+        <div class="info">
+            <div class="title">Двухпроцессорная материнская плата HUANANZHI X99 F8D PLUS</div>
+            <ul class="desc-list">
+                <li>Quad 8*DDR4, ≤512Гб</li>
+                <li>Чипсет C612, 3*M.2 NVME</li>
+                <li>LGA 2011-3 (Xeon E5 V3/V4)</li>
+                <li>3*PCIe 3.0 X16, 3*PCIe 3.0 X8</li>
+                <li>10*SATA 3.0, Пост-код</li>
+                <li>Активное охлаждение зоны VRM</li>
+                <li>4*USB 2.0, 4*USB 3.0, 2*GgE</li>
+                <li>eATX. 330*305мм</li>
+                <li>БП с 2*CPU8 pin</li>
+            </ul>
+            <div class="card-links">
+                <a href="https://project7726687.tilda.ws/page67772139.html" target="_blank">🔍 Подробнее</a>
+                <a href="http://www.huananzhi.com/en/more.php?lm=10&id=311" target="_blank" style="color: var(--hint)">🌐 Официальный сайт</a>
+            </div>
+            <div class="price-container">
+                <div class="price">17500 ₽</div>
+                <button class="add-btn" onclick="addToCart('Двухпроцессорная материнская плата HUANANZHI X99 F8D PLUS', 17500, 1)">В корзину</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
 </div>
 
 <button class="main-btn" id="footer-btn" style="display: none;" onclick="toggleCart(true)">Корзина</button>
