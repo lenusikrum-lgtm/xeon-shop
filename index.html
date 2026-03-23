@@ -126,10 +126,17 @@
     let cart = {};
     const orderId = Math.floor(1000 + Math.random() * 9000);
 
+    // УПРАВЛЕНИЕ КОРЗИНОЙ
     function toggleCart(st) {
         const page = document.getElementById('cart-page');
-        if (st) { renderCart(); page.classList.add('active'); window.history.pushState({p:1}, "", "#cart"); }
-        else { page.classList.remove('active'); if(window.location.hash === "#cart") window.history.back(); }
+        if (st) { 
+            renderCart(); 
+            page.classList.add('active'); 
+            window.history.pushState({p:1}, "", "#cart"); 
+        } else { 
+            page.classList.remove('active'); 
+            if(window.location.hash === "#cart") window.history.back(); 
+        }
     }
     window.onpopstate = () => document.getElementById('cart-page').classList.remove('active');
 
@@ -147,16 +154,24 @@
         if (delta > 0 && cart[name].count >= cart[name].stock) return;
         cart[name].count += delta;
         if (cart[name].count <= 0) delete cart[name];
-        updateUI(); renderCart();
+        updateUI(); 
+        renderCart();
     }
 
     function clearCart() {
-        if (confirm("Очистить корзину?")) { cart = {}; updateUI(); toggleCart(false); }
+        if (confirm("Очистить корзину?")) { 
+            cart = {}; 
+            updateUI(); 
+            toggleCart(false); 
+        }
     }
 
     function updateUI() {
         let total = 0, count = 0;
-        for (let name in cart) { total += cart[name].price * cart[name].count; count += cart[name].count; }
+        for (let name in cart) { 
+            total += cart[name].price * cart[name].count; 
+            count += cart[name].count; 
+        }
         const fBtn = document.getElementById('footer-btn');
         fBtn.style.display = total > 0 ? 'block' : 'none';
         fBtn.innerText = `🛒 Корзина (${count}) — ${total} ₽`;
@@ -164,14 +179,20 @@
         renderProducts();
     }
 
+    // ОТОБРАЖЕНИЕ
     function renderProducts() {
         document.querySelectorAll('.card').forEach(card => {
             const name = card.dataset.name;
             const stock = parseInt(card.dataset.stock);
             const btn = card.querySelector('.add-btn');
             const inCart = cart[name] ? cart[name].count : 0;
-            if (stock === 0 || inCart >= stock) { btn.innerText = "НЕТ В НАЛИЧИИ"; btn.disabled = true; }
-            else { btn.innerText = "В корзину"; btn.disabled = false; }
+            if (stock === 0 || inCart >= stock) { 
+                btn.innerText = "НЕТ В НАЛИЧИИ"; 
+                btn.disabled = true; 
+            } else { 
+                btn.innerText = "В корзину"; 
+                btn.disabled = false; 
+            }
         });
     }
 
@@ -191,45 +212,55 @@
         document.getElementById('cart-list').innerHTML = h || 'Корзина пуста';
     }
 
+    // ОТПРАВКА
     function sendToGoogle() {
         if (Object.keys(cart).length === 0) return;
+        
+        // ВНИМАНИЕ: Проверьте правильность этой ссылки (ID формы)
         const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V9lgwR0XVRdGEbRj-nhGM7qa7ZP3fjEol_uVqIWHuv0RQ/formResponse';
-        let details = "";
-        for (let name in cart) { details += `${name} (x${cart[name].count}); \n`; }
+        
         let details = "";
         let total = 0;
 
-    for (let name in cart) {
-        const item = cart[name];
-        const itemSum = item.price * item.count; // Считаем сумму за конкретный товар
-        
-        // Формат: Название (x2) = 9600 ₽
-        details += `${name} (x${item.count}) = ${itemSum} ₽ \n`;
-        
-        total += itemSum;
-    }
+        for (let name in cart) {
+            const item = cart[name];
+            const itemSum = item.price * item.count;
+            details += `${name} (x${item.count}) = ${itemSum} ₽ \n`;
+            total += itemSum;
+        }
+
         const formData = new FormData();
+        // ВНИМАНИЕ: Проверьте entry ID, они должны совпадать с вашей формой
         formData.append('entry.1235920526', orderId);
         formData.append('entry.2047625780', details);
-        formData.append('entry.149902418', document.getElementById('total-sum').innerText + ' ₽');
+        formData.append('entry.149902418', total + ' ₽');
         formData.append('entry.152754222', document.getElementById('delivery').value);
         formData.append('entry.1461400834', document.getElementById('comment').value);
         formData.append('entry.1375472207', document.getElementById('userPhone').value);
         formData.append('entry.687754715', document.getElementById('messenger').value);
 
-        fetch(formURL, { method: 'POST', mode: 'no-cors', body: formData }).then(() => {
-            alert('✅ Заказ отправлен!');
-            cart = {}; updateUI(); toggleCart(false);
-        }).catch(() => alert('Ошибка при отправке'));
+        fetch(formURL, { method: 'POST', mode: 'no-cors', body: formData })
+        .then(() => {
+            alert('✅ Заказ успешно отправлен!');
+            cart = {}; 
+            updateUI(); 
+            toggleCart(false);
+        })
+        .catch(() => alert('Ошибка при отправке. Попробуйте снова.'));
     }
 
+    // ФИЛЬТРЫ И ПОИСК
     function searchItems() {
         let q = document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => c.style.display = c.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none');
+        document.querySelectorAll('.card').forEach(c => {
+            c.style.display = c.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
+        });
     }
 
     function filter(c) {
-        document.querySelectorAll('.card').forEach(card => card.style.display = (c === 'all' || card.classList.contains(c)) ? 'flex' : 'none');
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.display = (c === 'all' || card.classList.contains(c)) ? 'flex' : 'none';
+        });
     }
 
     function sort(dir) {
