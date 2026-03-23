@@ -196,7 +196,18 @@
         const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSet8V9lgwR0XVRdGEbRj-nhGM7qa7ZP3fjEol_uVqIWHuv0RQ/formResponse';
         let details = "";
         for (let name in cart) { details += `${name} (x${cart[name].count}); \n`; }
+        let details = "";
+        let total = 0;
 
+    for (let name in cart) {
+        const item = cart[name];
+        const itemSum = item.price * item.count; // Считаем сумму за конкретный товар
+        
+        // Формат: Название (x2) = 9600 ₽
+        details += `${name} (x${item.count}) = ${itemSum} ₽ \n`;
+        
+        total += itemSum;
+    }
         const formData = new FormData();
         formData.append('entry.1235920526', orderId);
         formData.append('entry.2047625780', details);
