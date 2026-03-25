@@ -147,7 +147,7 @@
 
 /* Чтобы карточки сборки были той же высоты, что и процессоры */
 .card.build {
-    min-height: 420px !important;
+    min-height: 480px !important;
 }
 </style>
 </head>
@@ -1220,7 +1220,7 @@
     </div>
     
  </div>
-<button class="main-btn" id="footer-btn" style="display: none;" onclick="toggleCart(true)">Корзина</button>
+<button class="main-btn" id="cart-button" style="display: none;" onclick="toggleCart(true)">Корзина: 0 ₽</button>
 
 <div id="cart-page">
     <div onclick="toggleCart(false)" style="color: var(--btn); margin-bottom: 20px; font-weight: bold; cursor: pointer;">← К витрине</div>
@@ -1294,18 +1294,24 @@
         }
     }
 
-    function updateUI() {
-        let total = 0, count = 0;
-        for (let name in cart) { 
-            total += cart[name].price * cart[name].count; 
-            count += cart[name].count; 
-        }
-        const fBtn = document.getElementById('footer-btn');
+function updateUI() {
+    let total = 0, count = 0;
+    for (let name in cart) { 
+        total += cart[name].price * cart[name].count; 
+        count += cart[name].count; 
+    }
+    // Ищем кнопку по правильному ID, который мы задали в CSS и HTML
+    const fBtn = document.getElementById('cart-button'); 
+    if (fBtn) {
         fBtn.style.display = total > 0 ? 'block' : 'none';
         fBtn.innerText = `🛒 Корзина (${count}) — ${total} ₽`;
-        document.getElementById('total-sum').innerText = total;
-        renderProducts();
     }
+    
+    const totalSumElem = document.getElementById('total-sum');
+    if (totalSumElem) totalSumElem.innerText = total;
+    
+    renderProducts();
+}
 
     // ОТОБРАЖЕНИЕ
     function renderProducts() {
@@ -1339,7 +1345,7 @@
         }
         document.getElementById('cart-list').innerHTML = h || 'Корзина пуста';
     }
-    function updateBuildPrice(id) {
+function updateBuildPrice(id) {
     const select = document.getElementById('build-option' + id);
     const priceDisplay = document.getElementById('build-price-display' + id);
     if (select && priceDisplay) {
@@ -1354,14 +1360,12 @@ function addBuildToCart(id) {
     const selectedOption = select.options[select.selectedIndex];
     
     const finalPrice = parseInt(select.value);
-    const fullName = baseName + ' (' + selectedOption.getAttribute('data-suffix') + ')';
+    const suffix = selectedOption.getAttribute('data-suffix');
+    const fullName = `${baseName} (${suffix})`;
     
-    // Вызов твоей основной функции корзины
-    if (typeof addToCart === 'function') {
-        addToCart(fullName, finalPrice);
-    } else {
-        alert('Ошибка: функция addToCart не найдена');
-    }
+    // Передаем 3 параметра: имя, цена и запас (999 для услуг)
+    addToCart(fullName, finalPrice, 999);
+}
 }
 
     // ОТПРАВКА
