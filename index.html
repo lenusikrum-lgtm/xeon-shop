@@ -1300,19 +1300,26 @@ function updateUI() {
         total += cart[name].price * cart[name].count; 
         count += cart[name].count; 
     }
-    // Ищем кнопку по правильному ID, который мы задали в CSS и HTML
+
+    // Ищем кнопку по НОВОМУ ID
     const fBtn = document.getElementById('cart-button'); 
+    
     if (fBtn) {
+        // Показываем кнопку, если в корзине что-то есть
         fBtn.style.display = total > 0 ? 'block' : 'none';
+        // Обновляем текст на кнопке
         fBtn.innerText = `🛒 Корзина (${count}) — ${total} ₽`;
     }
-    
-    const totalSumElem = document.getElementById('total-sum');
-    if (totalSumElem) totalSumElem.innerText = total;
-    
+
+    // Обновляем сумму в самом окне корзины
+    const totalElem = document.getElementById('total-sum');
+    if (totalElem) {
+        totalElem.innerText = total;
+    }
+
+    // Обновляем кнопки на карточках (доступность товара)
     renderProducts();
 }
-
     // ОТОБРАЖЕНИЕ
     function renderProducts() {
         document.querySelectorAll('.card').forEach(card => {
