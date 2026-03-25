@@ -1371,31 +1371,27 @@ function updateUI() {
 function renderProducts() {
     document.querySelectorAll('.card').forEach(card => {
         const name = card.dataset.name;
-        if (!name) return; // Пропускаем, если у карточки нет имени
-
-        const stock = parseInt(card.dataset.stock) || 0;
         const btn = card.querySelector('.add-btn');
         
-        // Если кнопки в карточке нет, пропускаем этот товар, чтобы не было ошибки
-        if (!btn) return; 
+        // Если в карточке нет имени или кнопки - игнорируем её, чтобы не было ошибки
+        if (!name || !btn) return; 
 
-        const inCart = (cart[name] ? cart[name].count : 0);
+        const stock = parseInt(card.dataset.stock) || 0;
+        const inCart = cart[name] ? cart[name].count : 0;
 
         if (stock <= 0) {
             btn.innerText = "НЕТ В НАЛИЧИИ";
             btn.disabled = true;
-            btn.style.opacity = "0.5";
+            btn.classList.add('disabled'); // Можно добавить стиль в CSS
         } else if (inCart >= stock) {
             btn.innerText = "МАКСИМУМ";
             btn.disabled = true;
         } else {
             btn.innerText = "В корзину";
             btn.disabled = false;
-            btn.style.opacity = "1";
         }
     });
 }
-
     function renderCart() {
         let h = '';
         for (let name in cart) {
@@ -1472,20 +1468,21 @@ function addBuildToCart(id) {
     }
 
     // ФИЛЬТРЫ И ПОИСК
+// ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ВИДИМОСТИ
 function updateFilters() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const category = document.getElementById('catFilter').value;
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        // 1. Проверяем категорию
+        // Проверка категории: есть ли у карточки такой класс
         const matchesCategory = (category === 'all' || card.classList.contains(category));
         
-        // 2. Проверяем поиск по названию
+        // Проверка поиска по названию (data-name)
         const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
         const matchesSearch = name.includes(query);
 
-        // Показываем только если оба условия верны
+        // Показываем, только если подошли И категория, И поиск
         if (matchesCategory && matchesSearch) {
             card.style.display = 'flex';
         } else {
@@ -1494,9 +1491,9 @@ function updateFilters() {
     });
 }
 
-// Теперь функции просто вызывают общее обновление
+// Теперь эти функции просто "пинают" общую логику
+function filter(val) { updateFilters(); }
 function searchItems() { updateFilters(); }
-function filter() { updateFilters(); }
     
     function sort(dir) {
         let grid = document.getElementById('products');
