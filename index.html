@@ -1479,12 +1479,24 @@ function addBuildToCart(id) {
         });
     }
 
-    function filter(c) {
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.display = (c === 'all' || card.classList.contains(c)) ? 'flex' : 'none';
-        });
-    }
-
+ function filter(c) {
+    // Находим все карточки
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        if (c === 'all') {
+            // Если выбрано "Все разделы", показываем всё
+            card.style.display = 'flex'; 
+        } else {
+            // Проверяем, есть ли у карточки класс, совпадающий с выбранным в select
+            if (card.classList.contains(c)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
     function sort(dir) {
         let grid = document.getElementById('products');
         let cards = Array.from(grid.querySelectorAll('.card[data-price]'));
