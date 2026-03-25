@@ -1268,15 +1268,34 @@
     }
     window.onpopstate = () => document.getElementById('cart-page').classList.remove('active');
 
-    function addToCart(name, price, stock) {
-        if (stock <= 0) return;
-        const current = cart[name] ? cart[name].count : 0;
-        if (current < stock) {
-            if (cart[name]) cart[name].count++;
-            else cart[name] = { price: price, count: 1, stock: stock };
-            updateUI();
-        }
+// ОСНОВНАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ
+function addToCart(name, price, stock) {
+    // Если stock забыли передать (undefined), ставим 1 по умолчанию, чтобы не блокировать
+    const availableStock = (stock === undefined) ? 999 : parseInt(stock);
+    
+    if (availableStock <= 0) {
+        console.warn("Товара нет в наличии:", name);
+        return;
     }
+
+    const currentInCart = cart[name] ? cart[name].count : 0;
+
+    if (currentInCart < availableStock) {
+        if (cart[name]) {
+            cart[name].count++;
+        } else {
+            cart[name] = { 
+                price: parseInt(price), 
+                count: 1, 
+                stock: availableStock 
+            };
+        }
+        console.log(`Добавлено: ${name}. В корзине: ${cart[name].count}`);
+        updateUI();
+    } else {
+        alert("Больше нет в наличии!");
+    }
+}
 
     function changeQty(name, delta) {
         if (delta > 0 && cart[name].count >= cart[name].stock) return;
@@ -1294,30 +1313,33 @@
         }
     }
 
+// ОБНОВЛЕНИЕ ИНТЕРФЕЙСА
 function updateUI() {
-    let total = 0, count = 0;
+    let total = 0;
+    let count = 0;
+
     for (let name in cart) { 
         total += cart[name].price * cart[name].count; 
         count += cart[name].count; 
     }
 
-    // Ищем кнопку по НОВОМУ ID
+    // ВНИМАНИЕ: Проверяем именно этот ID
     const fBtn = document.getElementById('cart-button'); 
     
     if (fBtn) {
-        // Показываем кнопку, если в корзине что-то есть
-        fBtn.style.display = total > 0 ? 'block' : 'none';
-        // Обновляем текст на кнопке
-        fBtn.innerText = `🛒 Корзина (${count}) — ${total} ₽`;
+        if (total > 0) {
+            fBtn.style.display = 'block';
+            fBtn.innerText = `🛒 Корзина (${count}) — ${total} ₽`;
+        } else {
+            fBtn.style.display = 'none';
+        }
+    } else {
+        console.error("Кнопка с id='cart-button' не найдена на странице!");
     }
 
-    // Обновляем сумму в самом окне корзины
-    const totalElem = document.getElementById('total-sum');
-    if (totalElem) {
-        totalElem.innerText = total;
-    }
+    const totalSumElem = document.getElementById('total-sum');
+    if (totalSumElem) totalSumElem.innerText = total;
 
-    // Обновляем кнопки на карточках (доступность товара)
     renderProducts();
 }
     // ОТОБРАЖЕНИЕ
