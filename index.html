@@ -144,7 +144,21 @@
     background-position: right 10px center;
     background-size: 1em;
 }
+#cart-page {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Спрятано справа */
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+    transition: 0.3s; /* Плавное появление */
+    padding: 20px;
+}
 
+#cart-page.active {
+    right: 0; /* Выезжает на экран */
+}
 /* Чтобы карточки сборки были той же высоты, что и процессоры */
 .card.build {
     min-height: 480px !important;
@@ -1255,17 +1269,22 @@
     const orderId = Math.floor(1000 + Math.random() * 9000);
 
     // УПРАВЛЕНИЕ КОРЗИНОЙ
-    function toggleCart(st) {
-        const page = document.getElementById('cart-page');
-        if (st) { 
-            renderCart(); 
-            page.classList.add('active'); 
-            window.history.pushState({p:1}, "", "#cart"); 
-        } else { 
-            page.classList.remove('active'); 
-            if(window.location.hash === "#cart") window.history.back(); 
-        }
+function toggleCart(st) {
+    const page = document.getElementById('cart-page');
+    if (!page) {
+        alert("Ошибка: Элемент cart-page не найден в HTML!");
+        return;
     }
+
+    if (st) {
+        renderCart(); // Рисуем список товаров
+        page.classList.add('active'); // Добавляем класс для выезда
+        document.body.style.overflow = 'hidden'; // Отключаем прокрутку сайта
+    } else {
+        page.classList.remove('active'); // Убираем класс, корзина уезжает
+        document.body.style.overflow = ''; // Возвращаем прокрутку
+    }
+}
     window.onpopstate = () => document.getElementById('cart-page').classList.remove('active');
 
 // ОСНОВНАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ
