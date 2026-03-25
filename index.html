@@ -20,7 +20,6 @@
         color: var(--text); 
         margin: 0; 
         padding-bottom: 100px; 
-        line-height: 1.4;
     }
     
     /* ШАПКА */
@@ -29,23 +28,23 @@
     .controls { display: flex; gap: 8px; margin-bottom: 10px; }
     .btn-select { flex: 1; height: 40px; background-color: var(--sec-bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; cursor: pointer; font-size: 14px; }
 
-    /* СЕТКА ТОВАРОВ — СТРОГО 5 В РЯД */
+    /* СЕТКА ТОВАРОВ — БЕЗ ДЫР */
     .grid {
         display: grid !important;
-        grid-template-columns: repeat(5, 1fr) !important; /* 5 равных колонок */
+        grid-template-columns: repeat(5, 1fr) !important; /* Ровно 5 колонок */
         gap: 15px !important;
         padding: 15px !important;
         width: 100% !important;
         box-sizing: border-box !important;
-        align-items: stretch;
+        align-items: stretch; /* Карточки в ряду будут одной высоты */
     }
 
-    /* Адаптивность для экранов поменьше */
-    @media (max-width: 1400px) { .grid { grid-template-columns: repeat(4, 1fr) !important; } }
-    @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr) !important; } }
-    @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; padding: 10px; } }
+    /* Адаптив для средних и мелких экранов */
+    @media (max-width: 1300px) { .grid { grid-template-columns: repeat(4, 1fr) !important; } }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr) !important; } }
+    @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; } }
 
-    /* КАРТОЧКА — ФИКСИРОВАННЫЙ РАЗМЕР */
+    /* КАРТОЧКА — БЕЗ ПРОКРУТОК */
     .card {
         display: flex !important;
         flex-direction: column !important;
@@ -53,10 +52,11 @@
         border: 1px solid var(--sec-bg);
         border-radius: 12px;
         padding: 12px;
-        height: 540px !important; /* Жесткая высота для всех карточек */
+        height: 100% !important; /* Высота подстраивается под контент */
+        min-height: 450px;
         box-sizing: border-box !important;
         position: relative;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s;
     }
 
     .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
@@ -71,52 +71,42 @@
         flex-shrink: 0;
     }
 
-    .stock-tag { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 8px; border-radius: 8px; font-size: 10px; z-index: 2; }
-    
     .info {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        overflow: hidden;
     }
 
     .title { 
         font-weight: bold; 
         font-size: 14px; 
-        height: 3.9em; /* Фиксированная высота заголовка (3 строки) */
+        line-height: 1.3; 
         margin-bottom: 8px; 
-        overflow: hidden; 
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        color: var(--text);
+        min-height: 2.6em; /* Запас под 2-3 строки */
     }
 
+    /* Характеристики без скролла */
     .desc-list {
         font-size: 12px;
-        margin: 0;
+        margin: 0 0 15px 0;
         padding-left: 15px;
         list-style-type: disc;
         color: var(--hint);
-        height: 110px; /* Фиксированная высота для списка характеристик */
-        overflow-y: auto; /* Скролл только внутри списка, если он очень длинный */
-        flex-shrink: 0;
+        height: auto !important; /* Убираем фикс высоту */
+        overflow: visible !important; /* Убираем скролл */
+        flex-grow: 1; /* Растягивает карточку, если нужно */
     }
 
     .desc-list li { margin-bottom: 2px; }
-    
-    .card-links { margin-top: 8px; height: 35px; overflow: hidden; }
-    .card-links a { font-size: 11px; color: var(--btn); text-decoration: none; display: block; margin-bottom: 2px; }
 
-    /* НИЖНЯЯ ЧАСТЬ — ВСЕГДА ВНИЗУ */
+    /* Блок цены всегда внизу */
     .price-container {
         margin-top: auto; 
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-top: 1px solid var(--sec-bg);
-        padding-top: 10px;
-        flex-shrink: 0;
+        padding-top: 12px;
     }
 
     .price { font-weight: 800; color: var(--accent); font-size: 17px; }
@@ -129,23 +119,12 @@
         border-radius: 8px;
         cursor: pointer;
         font-weight: bold;
-        font-size: 13px;
     }
-
-    /* СОСТОЯНИЯ */
-    .card[data-stock="0"] { opacity: 0.6; filter: grayscale(0.4); }
-    .card[data-stock="0"] .add-btn { background-color: #ccc; pointer-events: none; }
 
     /* КОРЗИНА */
     #cart-page { position: fixed; top: 0; left: 100%; width: 100%; height: 100%; background: var(--bg); z-index: 200; transition: 0.3s; padding: 20px; box-sizing: border-box; overflow-y: auto; }
     #cart-page.active { left: 0; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--sec-bg); }
-    .qty-controls { display: flex; align-items: center; gap: 10px; }
-    .btn-qty { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #ddd; background: var(--sec-bg); color: var(--text); cursor: pointer; }
-    
-    .prepay-notice { background: rgba(231, 76, 60, 0.1); color: var(--warning); padding: 12px; border-radius: 12px; font-size: 12px; margin: 15px 0; border: 1px solid var(--warning); text-align: center; }
     .main-btn { background: var(--btn); color: var(--btn-text); border: none; width: calc(100% - 30px); padding: 18px; border-radius: 16px; font-size: 16px; font-weight: bold; position: fixed; bottom: 20px; left: 15px; z-index: 150; cursor: pointer; }
-    .order-btn { background: var(--accent); color: #fff; width: 100%; padding: 18px; border-radius: 16px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; }
 </style>
 </head>
 <body>
