@@ -1472,31 +1472,32 @@ function addBuildToCart(id) {
     }
 
     // ФИЛЬТРЫ И ПОИСК
-    function searchItems() {
-        let q = document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(c => {
-            c.style.display = c.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
-        });
-    }
-
- function filter(c) {
-    // Находим все карточки
+function updateFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const category = document.getElementById('catFilter').value;
     const cards = document.querySelectorAll('.card');
-    
+
     cards.forEach(card => {
-        if (c === 'all') {
-            // Если выбрано "Все разделы", показываем всё
-            card.style.display = 'flex'; 
+        // 1. Проверяем категорию
+        const matchesCategory = (category === 'all' || card.classList.contains(category));
+        
+        // 2. Проверяем поиск по названию
+        const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
+        const matchesSearch = name.includes(query);
+
+        // Показываем только если оба условия верны
+        if (matchesCategory && matchesSearch) {
+            card.style.display = 'flex';
         } else {
-            // Проверяем, есть ли у карточки класс, совпадающий с выбранным в select
-            if (card.classList.contains(c)) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = 'none';
         }
     });
 }
+
+// Теперь функции просто вызывают общее обновление
+function searchItems() { updateFilters(); }
+function filter() { updateFilters(); }
+    
     function sort(dir) {
         let grid = document.getElementById('products');
         let cards = Array.from(grid.querySelectorAll('.card[data-price]'));
