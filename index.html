@@ -115,7 +115,16 @@
         overflow: visible !important; 
         flex-grow: 1; 
     }
+.desc-list li {
+    margin-bottom: 8px; /* Регулируй это число: чем больше, тем шире расстояние */
+    list-style-type: none; /* Убирает точки, если они не нужны */
+    line-height: 1.4; /* Дополнительно делает текст менее "зажатым" */
+}
 
+/* Чтобы у последнего пункта не было лишнего отступа снизу */
+.desc-list li:last-child {
+    margin-bottom: 0;
+}
     .price-container {
         margin-top: auto; 
         display: flex;
@@ -1206,7 +1215,7 @@
     <div class="info">
         <div class="title">Сборка ПК (2 CPU)</div>
         <label style="font-size: 10px; color: #888; display: block; margin-bottom: 4px;">Выберите условия сборки:</label>
-        <select id="build-option2" class="btn-select" style="width: 100%; margin-bottom: 12px; font-size: 14px; height: 40px; padding: 0 35px 0 10px; border-radius: 8px; border: 1px solid #ddd; background-color: #fff; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 10px top 50%; background-size: 12px auto;" onchange="updateBuildPrice(2)">
+        <select id="build-option2" class="btn-select" style="width: 100%; margin-bottom: 12px; font-size: 14px; padding: 12px 10px; border-radius: 8px; border: 1px solid #ddd; background-color: #ffffff !important; cursor: pointer; display: block; box-sizing: border-box; appearance: auto; -webkit-appearance: menulist;" onchange="updateBuildPrice(2)">
             <option value="2500" data-suffix="Всё наше">Всё наше — 2500₽</option>
             <option value="3000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 3000₽</option>
             <option value="3500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 3500₽</option>
