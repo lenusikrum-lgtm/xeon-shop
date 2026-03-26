@@ -197,6 +197,35 @@
 #cart-page.active {
     right: 0;
 }
+    /* Делаем список в корзине просторным */
+#cart-list {
+    padding: 10px;
+}
+
+/* Кнопки плюс/минус */
+.btn-qty {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.btn-qty:hover:not(:disabled) {
+    background: #e0e0e0;
+}
+
+/* На мобильных телефонах чуть уменьшаем шрифт, чтобы название не перекрывало цену */
+@media (max-width: 480px) {
+    .cart-item {
+        font-size: 16px !important;
+        flex-direction: column; /* На очень узких экранах лучше в две строки */
+        align-items: flex-start !important;
+    }
+    .qty-controls {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+}
 /* Чтобы карточки сборки были той же высоты, что и процессоры */
 .card.build {
     min-height: 480px !important;
@@ -1447,21 +1476,30 @@ function renderProducts() {
         }
     });
 }
-    function renderCart() {
-        let h = '';
-        for (let name in cart) {
-            const item = cart[name];
-            h += `<div class="cart-item">
-                <div style="flex:1"><b>${name}</b><br><small>${item.price} ₽</small></div>
-                <div class="qty-controls">
-                    <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
-                    <span>${item.count}</span>
-                    <button class="btn-qty" onclick="changeQty('${name}', 1)" ${item.count >= item.stock ? 'disabled style="opacity:0.3"' : ''}>+</button>
+  function renderCart() {
+    let h = '';
+    for (let name in cart) {
+        const item = cart[name];
+        // Вычисляем сумму за конкретную позицию (цена * количество)
+        const itemTotal = item.price * item.count;
+
+        h += `
+            <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; font-size: 18px;">
+                <div style="flex: 1; margin-right: 20px;">
+                    <span style="font-weight: 500;">${name}</span> 
+                    <span style="color: #888; margin: 0 10px;">—</span> 
+                    <span style="font-weight: bold; white-space: nowrap;">${itemTotal} ₽</span>
+                </div>
+
+                <div class="qty-controls" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-qty" onclick="changeQty('${name}', -1)" style="width: 35px; height: 35px; font-size: 20px; cursor: pointer;">-</button>
+                    <span style="min-width: 25px; text-align: center; font-weight: bold;">${item.count}</span>
+                    <button class="btn-qty" onclick="changeQty('${name}', 1)" ${item.count >= item.stock ? 'disabled style="opacity:0.3"' : ''} style="width: 35px; height: 35px; font-size: 20px; cursor: pointer;">+</button>
                 </div>
             </div>`;
-        }
-        document.getElementById('cart-list').innerHTML = h || 'Корзина пуста';
     }
+    document.getElementById('cart-list').innerHTML = h || '<div style="text-align:center; padding: 20px; color: #888;">Корзина пуста</div>';
+}
 function updateBuildPrice(id) {
     const select = document.getElementById('build-option' + id);
     const priceDisplay = document.getElementById('build-price-display' + id);
