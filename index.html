@@ -1468,32 +1468,27 @@ function addBuildToCart(id) {
     }
 
     // ФИЛЬТРЫ И ПОИСК
-// ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ВИДИМОСТИ
-// 1. Изменяем функцию filter, чтобы она принимала значение из HTML
-function filter(val) {
-    updateFilters();
-}
-
-// 2. Изменяем поиск
-function searchItems() {
-    updateFilters();
-}
-
-// 3. Основная логика, которая все склеивает
 function updateFilters() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const category = document.getElementById('catFilter').value;
+    const searchInput = document.getElementById('searchInput');
+    const catSelect = document.getElementById('catFilter');
+    
+    if (!searchInput || !catSelect) return;
+
+    const query = searchInput.value.toLowerCase();
+    const category = catSelect.value;
     const cards = document.querySelectorAll('.card');
 
+    console.log("Фильтруем! Категория:", category, "Поиск:", query);
+
     cards.forEach(card => {
-        // Проверяем категорию (есть ли у карточки класс mb, cpu и т.д.)
+        // Проверяем категорию
         const matchesCategory = (category === 'all' || card.classList.contains(category));
         
-        // Проверяем поиск
+        // Проверяем поиск по названию
         const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
         const matchesSearch = name.includes(query);
 
-        // Показываем только если совпало И ТО, И ДРУГОЕ
+        // Условие показа
         if (matchesCategory && matchesSearch) {
             card.style.display = 'flex';
         } else {
@@ -1502,9 +1497,15 @@ function updateFilters() {
     });
 }
 
-// Теперь эти функции просто "пинают" общую логику
-function filter(val) { updateFilters(); }
-function searchItems() { updateFilters(); }
+// Чтобы поиск продолжал работать
+function searchItems() {
+    updateFilters();
+}
+
+// Заглушка для старого вызова, если он остался в HTML
+function filter() {
+    updateFilters();
+}
     
     function sort(dir) {
         let grid = document.getElementById('products');
