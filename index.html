@@ -1175,7 +1175,7 @@
         </div>
     </div>
 
-<div class="card build" id="build-service-card-1" data-base-name="Сборка ПК (1 CPU)" data-stock="999">
+<div class="card build" id="build-service-card-1" data-price="1500" data-base-name="Сборка ПК (1 CPU)" data-stock="999">
     <img src="https://optim.tildacdn.pub/tild3338-3533-4033-a262-396531336232/-/resize/760x/-/format/webp/Screenshot_644444.jpg.webp">
     <div class="info">
         <div class="title">Сборка ПК (1 CPU)</div>
@@ -1192,7 +1192,7 @@
     </div>
 </div>
 
-<div class="card build" id="build-service-card-2" data-base-name="Сборка ПК (2 CPU)" data-stock="999">
+<div class="card build" id="build-service-card-2" data-price="2500" data-base-name="Сборка ПК (2 CPU)" data-stock="999">
     <img src="https://optim.tildacdn.pub/tild3338-3533-4033-a262-396531336232/-/resize/760x/-/format/webp/Screenshot_644444.jpg.webp">
     <div class="info">
         <div class="title">Сборка ПК (2 CPU)</div>
@@ -1469,20 +1469,64 @@ function addBuildToCart(id) {
 
     // ФИЛЬТРЫ И ПОИСК
 // ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ВИДИМОСТИ
+// ИСПРАВЛЕННАЯ ФИЛЬТРАЦИЯ
 function updateFilters() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const category = document.getElementById('catFilter').value;
     const cards = document.querySelectorAll('.card');
-
+    
     cards.forEach(card => {
-        // Проверка категории: есть ли у карточки такой класс
-        const matchesCategory = (category === 'all' || card.classList.contains(category));
+        // Для карточек build и faq всегда показываем если категория all или их категория
+        let matchesCategory = false;
         
-        // Проверка поиска по названию (data-name)
+        if (category === 'all') {
+            matchesCategory = true;
+        } else if (card.classList.contains('build') || card.classList.contains('faq')) {
+            // Показываем build и faq только если выбрана их категория
+            matchesCategory = (category === 'build' && card.classList.contains('build')) ||
+                            (category === 'faq' && card.classList.contains('faq'));
+        } else {
+            matchesCategory = card.classList.contains(category);
+        }
+        
         const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
         const matchesSearch = name.includes(query);
+        
+        if (matchesCategory && matchesSearch) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
 
-        // Показываем, только если подошли И категория, И поиск
+// ИСПРАВЛЕННАЯ СОРТИРОВКА
+function updateFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const category = document.getElementById('catFilter').value;
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        // Проверка категории
+        let matchesCategory = (category === 'all');
+        
+        if (!matchesCategory) {
+            // Для карточек сборки и FAQ - показываем только если выбрана их категория
+            if (card.classList.contains('build')) {
+                matchesCategory = (category === 'build');
+            } else if (card.classList.contains('faq')) {
+                matchesCategory = (category === 'faq');
+            } else {
+                // Для обычных товаров проверяем класс
+                matchesCategory = card.classList.contains(category);
+            }
+        }
+        
+        // Проверка поиска - если нет data-name, считаем что подходит
+        const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
+        const matchesSearch = name === "" ? true : name.includes(query);
+        
+        // Показываем если подходят И категория, И поиск
         if (matchesCategory && matchesSearch) {
             card.style.display = 'flex';
         } else {
@@ -1494,13 +1538,47 @@ function updateFilters() {
 // Теперь эти функции просто "пинают" общую логику
 function filter(val) { updateFilters(); }
 function searchItems() { updateFilters(); }
-    
+
     function sort(dir) {
-        let grid = document.getElementById('products');
-        let cards = Array.from(grid.querySelectorAll('.card[data-price]'));
-        cards.sort((a, b) => (parseInt(a.dataset.price) - parseInt(b.dataset.price)) * dir);
-        cards.forEach(c => grid.appendChild(c));
-    }
+    let grid = document.getElementById('products');
+    let cards = Array.from(grid.querySelectorAll('.card'));
+    
+    // Получаем текущий фильтр и поиск
+    const currentCategory = document.getElementById('catFilter').value;
+    const currentSearch = document.getElementById('searchInput').value.toLowerCase();
+    
+    // Разделяем карточки на обычные и специальные (build, faq)
+    let regularCards = [];
+    let specialCards = [];
+    
+    cards.forEach(card => {
+        // Проверяем видимость карточки
+        const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
+        const matchesSearch = name.includes(currentSearch);
+        let matchesCategory = (currentCategory === 'all' || card.classList.contains(currentCategory));
+        
+        if (card.classList.contains('build') || card.classList.contains('faq')) {
+            if (matchesSearch && (currentCategory === 'all' || 
+                (currentCategory === 'build' && card.classList.contains('build')) ||
+                (currentCategory === 'faq' && card.classList.contains('faq')))) {
+                specialCards.push(card);
+            }
+        } else if (matchesCategory && matchesSearch) {
+            regularCards.push(card);
+        }
+    });
+    
+    // Сортируем только обычные карточки по цене
+    regularCards.sort((a, b) => {
+        let priceA = parseInt(a.dataset.price) || 0;
+        let priceB = parseInt(b.dataset.price) || 0;
+        return (priceA - priceB) * dir;
+    });
+    
+    // Добавляем все карточки: сначала отсортированные, потом специальные
+    regularCards.forEach(c => grid.appendChild(c));
+    specialCards.forEach(c => grid.appendChild(c));
+}
 
     window.onload = renderProducts;
 </script>
