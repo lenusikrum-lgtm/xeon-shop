@@ -196,7 +196,7 @@
         <button class="btn-select" style="flex:0; min-width:50px" onclick="sort(1)">↑₽</button>
     </div>
 </div>
-
+<div id="itemCount" style="margin: 10px; color: var(--hint);"></div>
 <div class="grid" id="products">
     
     <div class="card mb" data-price="4000" data-name="Материнская плата KEYIYOU X99 K4" data-stock="1">
@@ -1495,6 +1495,14 @@ function updateFilters() {
             card.style.display = 'none';
         }
     });
+    // Считаем, сколько карточек осталось видимыми
+    const visibleCount = Array.from(cards).filter(c => c.style.display !== 'none').length;
+    
+    // Если у тебя в HTML есть элемент для вывода текста (например, id="count")
+    const countDisplay = document.getElementById('itemCount');
+    if (countDisplay) {
+        countDisplay.innerText = `Найдено: ${visibleCount}`;
+    }
 }
 
 // Чтобы поиск продолжал работать
