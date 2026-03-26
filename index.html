@@ -27,28 +27,30 @@
     .controls { display: flex; gap: 8px; margin-bottom: 10px; padding: 0 15px; }
     .btn-select { flex: 1; height: 40px; background-color: var(--sec-bg); color: var(--text); border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; cursor: pointer; font-size: 14px; }
 
-    /* СЕТКА ТОВАРОВ — 5 В РЯД */
+    /* СЕТКА ТОВАРОВ — 7 В РЯД */
     .grid {
         display: grid !important;
         grid-template-columns: repeat(7, 1fr) !important;
         gap: 15px !important;
-        padding: 10px !important;
+        padding: 15px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         align-items: stretch; 
     }
 
-   /* Чтобы на маленьких экранах (телефонах) всё не слиплось в кашу */
-@media (max-width: 1400px) {
-    .grid { grid-template-columns: repeat(5, 1fr); }
+/* Мобильная версия: если экран меньше 768px (планшеты и телефоны) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* СТРОГО 2 ТОВАРА В РЯД */
+        gap: 10px; /* Чуть меньшие отступы, чтобы сэкономить место */
+        padding: 10px;
+    }
+    
+    /* Делаем заголовки товаров чуть мельче, чтобы влезали в узкую карточку */
+    .card .title {
+        font-size: 13px !important;
+    }
 }
-@media (max-width: 1000px) {
-    .grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 600px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-}
-
     /* КАРТОЧКА */
     .card {
         display: flex;
@@ -1204,7 +1206,7 @@
     <div class="info">
         <div class="title">Сборка ПК (2 CPU)</div>
         <label style="font-size: 10px; color: #888; display: block; margin-bottom: 4px;">Выберите условия сборки:</label>
-        <select id="build-option2" class="btn-select" style="width: 100%; margin-bottom: 12px; font-size: 15px; height: 45px; line-height: 45px; padding: 0px 10px; border-radius: 8px; border: 1px solid #ddd; background-color: #fff; cursor: pointer;" onchange="updateBuildPrice(2)">
+        <select id="build-option2" class="btn-select" style="width: 100%; margin-bottom: 12px; font-size: 14px; height: 40px; padding: 0 35px 0 10px; border-radius: 8px; border: 1px solid #ddd; background-color: #fff; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 10px top 50%; background-size: 12px auto;" onchange="updateBuildPrice(2)">
             <option value="2500" data-suffix="Всё наше">Всё наше — 2500₽</option>
             <option value="3000" data-suffix="Ваш БП или Корпус">Ваш БП или Корпус — 3000₽</option>
             <option value="3500" data-suffix="Ваш БП и Корпус">Ваш БП и Корпус — 3500₽</option>
