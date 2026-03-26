@@ -218,57 +218,108 @@
 /* Мобильная адаптация для корзины */
 @media (max-width: 480px) {
     .cart-item {
-        font-size: 14px !important; /* Уменьшаем шрифт с 18px до 14px */
-        padding: 10px 0 !important;
+        font-size: 14px; /* На телефоне шрифт чуть меньше */
+        padding: 12px 5px;
     }
 
-    /* Название товара: ограничиваем в одну строку с многоточием */
-    .cart-item-name {
-        white-space: nowrap;
+    .cart-item-info {
+        margin-right: 15px; /* На телефоне отступ поменьше */
+        overflow: hidden; /* Чтобы не распирало экран */
+    }
+
+    .item-name {
+        /* ЭТИ ТРИ СТРОКИ УБИРАЮТ ПЕРЕНОС */
+        white-space: nowrap; 
         overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 160px; /* Ограничиваем ширину, чтобы цена не уезжала */
+        text-overflow: ellipsis; 
+        
+        max-width: 140px; /* Подбери под свой экран, чтобы влезло и название, и цена */
     }
 
-    /* Кнопки управления делаем чуть компактнее */
-    .btn-qty {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 16px !important;
+    .item-price {
+        margin-left: 5px;
     }
-    .qty-controls {
-        margin-top: 10px;
-        align-self: flex-end;
+    
+    .btn-qty {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
     }
 }
-    .cart-item {
+ /* ОБЩИЕ СТИЛИ (ДЛЯ ПК) */
+.cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px; /* Возвращаем крупный шрифт для ПК */
 }
 
-.cart-item-main {
+.cart-item-info {
     display: flex;
-    align-items: center;
-    flex: 1; /* Занимает всё место слева */
-    min-width: 0; /* Важно для работы многоточия */
+    flex: 1;
+    justify-content: space-between; /* Название слева, цена справа от названия */
+    margin-right: 40px; /* ОГРОМНЫЙ ОТСТУП, чтобы не слипалось с кнопками +- */
 }
 
-.cart-item-divider {
-    margin: 0 5px;
-    color: #ccc;
+.item-name {
+    font-weight: 500;
+    padding-right: 20px; /* Чтобы цена не прилипала к буквам */
 }
 
-.cart-item-price {
+.item-price {
     font-weight: bold;
-    white-space: nowrap;
+    white-space: nowrap; /* Цена всегда в одну строку */
+    color: #000;
 }
 
 .qty-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: 10px;
+    gap: 12px;
+}
+
+.btn-qty {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f9f9f9;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ (ТЕЛЕФОНЫ) */
+@media (max-width: 480px) {
+    .cart-item {
+        font-size: 14px; /* На телефоне шрифт чуть меньше */
+        padding: 12px 5px;
+    }
+
+    .cart-item-info {
+        margin-right: 15px; /* На телефоне отступ поменьше */
+        overflow: hidden; /* Чтобы не распирало экран */
+    }
+
+    .item-name {
+        /* ЭТИ ТРИ СТРОКИ УБИРАЮТ ПЕРЕНОС */
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        
+        max-width: 140px; /* Подбери под свой экран, чтобы влезло и название, и цена */
+    }
+
+    .item-price {
+        margin-left: 5px;
+    }
+    
+    .btn-qty {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
 }
 /* Чтобы карточки сборки были той же высоты, что и процессоры */
 .card.build {
