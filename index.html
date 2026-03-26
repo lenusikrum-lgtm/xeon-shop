@@ -1469,21 +1469,31 @@ function addBuildToCart(id) {
 
     // ФИЛЬТРЫ И ПОИСК
 // ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ВИДИМОСТИ
+// 1. Изменяем функцию filter, чтобы она принимала значение из HTML
+function filter(val) {
+    updateFilters();
+}
+
+// 2. Изменяем поиск
+function searchItems() {
+    updateFilters();
+}
+
+// 3. Основная логика, которая все склеивает
 function updateFilters() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const category = document.getElementById('catFilter').value;
     const cards = document.querySelectorAll('.card');
 
-    console.log("Сейчас ищем категорию:", category); // Это покажет, что выбрано
-
     cards.forEach(card => {
-        // Проверяем, какие классы есть у карточки прямо сейчас
-        const hasClass = card.classList.contains(category);
-        const matchesCategory = (category === 'all' || hasClass);
+        // Проверяем категорию (есть ли у карточки класс mb, cpu и т.д.)
+        const matchesCategory = (category === 'all' || card.classList.contains(category));
         
+        // Проверяем поиск
         const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
         const matchesSearch = name.includes(query);
 
+        // Показываем только если совпало И ТО, И ДРУГОЕ
         if (matchesCategory && matchesSearch) {
             card.style.display = 'flex';
         } else {
