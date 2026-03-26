@@ -1474,15 +1474,16 @@ function updateFilters() {
     const category = document.getElementById('catFilter').value;
     const cards = document.querySelectorAll('.card');
 
+    console.log("Сейчас ищем категорию:", category); // Это покажет, что выбрано
+
     cards.forEach(card => {
-        // Проверка категории: есть ли у карточки такой класс
-        const matchesCategory = (category === 'all' || card.classList.contains(category));
+        // Проверяем, какие классы есть у карточки прямо сейчас
+        const hasClass = card.classList.contains(category);
+        const matchesCategory = (category === 'all' || hasClass);
         
-        // Проверка поиска по названию (data-name)
         const name = card.dataset.name ? card.dataset.name.toLowerCase() : "";
         const matchesSearch = name.includes(query);
 
-        // Показываем, только если подошли И категория, И поиск
         if (matchesCategory && matchesSearch) {
             card.style.display = 'flex';
         } else {
