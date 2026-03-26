@@ -215,16 +215,60 @@
 }
 
 /* На мобильных телефонах чуть уменьшаем шрифт, чтобы название не перекрывало цену */
+/* Мобильная адаптация для корзины */
 @media (max-width: 480px) {
     .cart-item {
+        font-size: 14px !important; /* Уменьшаем шрифт с 18px до 14px */
+        padding: 10px 0 !important;
+    }
+
+    /* Название товара: ограничиваем в одну строку с многоточием */
+    .cart-item-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 160px; /* Ограничиваем ширину, чтобы цена не уезжала */
+    }
+
+    /* Кнопки управления делаем чуть компактнее */
+    .btn-qty {
+        width: 30px !important;
+        height: 30px !important;
         font-size: 16px !important;
-        flex-direction: column; /* На очень узких экранах лучше в две строки */
-        align-items: flex-start !important;
     }
     .qty-controls {
         margin-top: 10px;
         align-self: flex-end;
     }
+}
+    .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-item-main {
+    display: flex;
+    align-items: center;
+    flex: 1; /* Занимает всё место слева */
+    min-width: 0; /* Важно для работы многоточия */
+}
+
+.cart-item-divider {
+    margin: 0 5px;
+    color: #ccc;
+}
+
+.cart-item-price {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
 }
 /* Чтобы карточки сборки были той же высоты, что и процессоры */
 .card.build {
@@ -1484,19 +1528,19 @@ function renderProducts() {
         const itemTotal = item.price * item.count;
 
         h += `
-            <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; font-size: 18px;">
-                <div style="flex: 1; margin-right: 20px;">
-                    <span style="font-weight: 500;">${name}</span> 
-                    <span style="color: #888; margin: 0 10px;">—</span> 
-                    <span style="font-weight: bold; white-space: nowrap;">${itemTotal} ₽</span>
-                </div>
+   <div class="cart-item">
+        <div class="cart-item-main">
+            <span class="cart-item-name">${name}</span>
+            <span class="cart-item-divider">—</span>
+            <span class="cart-item-price">${itemTotal} ₽</span>
+        </div>
 
-                <div class="qty-controls" style="display: flex; align-items: center; gap: 10px;">
-                    <button class="btn-qty" onclick="changeQty('${name}', -1)" style="width: 35px; height: 35px; font-size: 20px; cursor: pointer;">-</button>
-                    <span style="min-width: 25px; text-align: center; font-weight: bold;">${item.count}</span>
-                    <button class="btn-qty" onclick="changeQty('${name}', 1)" ${item.count >= item.stock ? 'disabled style="opacity:0.3"' : ''} style="width: 35px; height: 35px; font-size: 20px; cursor: pointer;">+</button>
-                </div>
-            </div>`;
+        <div class="qty-controls">
+            <button class="btn-qty" onclick="changeQty('${name}', -1)">-</button>
+            <span class="qty-num">${item.count}</span>
+            <button class="btn-qty" onclick="changeQty('${name}', 1)" ${item.count >= item.stock ? 'disabled' : ''}>+</button>
+        </div>
+    </div>`;
     }
     document.getElementById('cart-list').innerHTML = h || '<div style="text-align:center; padding: 20px; color: #888;">Корзина пуста</div>';
 }
