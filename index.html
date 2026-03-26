@@ -175,8 +175,8 @@
     position: fixed; /* Фиксируем поверх витрины */
     top: 0;
     right: -100%; /* Прячем вправо */
-    width: 100%;
-    max-width: 500px; /* Чтобы на ПК не была слишком широкой */
+    width: 80%;
+    max-width: 850px; /* Чтобы на ПК не была слишком широкой */
     height: 100vh; /* На всю высоту экрана */
     background: #ffffff; /* Белый фон (или var(--bg)) */
     z-index: 9999; /* Выше всех кнопок */
@@ -187,7 +187,12 @@
     box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     color: #000; /* Цвет текста, чтобы не был белым на белом */
 }
-
+@media (max-width: 768px) {
+    #cart-page {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
 /* Когда корзина открыта */
 #cart-page.active {
     right: 0;
