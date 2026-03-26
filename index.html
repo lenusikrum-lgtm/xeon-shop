@@ -107,18 +107,20 @@
 
     .desc-list {
         font-size: 15px;
-        margin: 0 0 15px 0;
-        padding-left: 15px;
-        list-style-type: disc;
+        margin: 0 0 15px 0 !important;
+        padding-left: 15px !important;
+        list-style-type: disc !important;
         color: var(--hint);
         height: auto !important; 
         overflow: visible !important; 
         flex-grow: 1; 
     }
 .desc-list li {
-    margin-bottom: 8px; /* Регулируй это число: чем больше, тем шире расстояние */
+    display: list-item !important;
+    margin-bottom: 6px !important; /* Регулируй это число: чем больше, тем шире расстояние */
     list-style-type: none; /* Убирает точки, если они не нужны */
     line-height: 1.4; /* Дополнительно делает текст менее "зажатым" */
+    color: #444;
 }
 
 /* Чтобы у последнего пункта не было лишнего отступа снизу */
