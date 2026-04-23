@@ -246,23 +246,30 @@
         font-size: 16px;
     }
 .stock-tag {
-    /* Чтобы фон был только по длине текста */
     display: inline-block;
     width: auto;
-    
-    /* Твои настройки цвета и шрифта */
-    color: #e64a19; 
-    font-weight: bold;
     font-size: 0.9em;
-    
-    /* Оформление плашки */
-    padding: 4px 10px;
-    border-radius: 6px;
-    background-color: rgba(230, 74, 25, 0.1); /* Легкий фон в цвет текста */
+    font-weight: bold;
     margin-bottom: 8px;
+    padding: 0; /* Убираем внутренние отступы, так как фона больше нет */
+    background: none !important; /* Убираем фоновый цвет полностью */
+}
 
-    /* Твоя анимация мигания */
+/* Специальный класс для акцента на последнем товаре */
+.is-last {
+    color: #e64a19; /* Твой оранжево-красный */
     animation: blink 2s infinite;
+}
+
+/* Обычный статус "В наличии" */
+.is-available {
+    color: #2e7d32; /* Спокойный зеленый текст без спецэффектов */
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 
 @keyframes blink {
@@ -2192,24 +2199,24 @@ function renderProducts() {
         const inCart = cart[name] ? cart[name].count : 0;
 
         // Логика для текста надписи (stock-tag)
-      if (stockTag) {
+if (stockTag) {
+    // Сначала сбрасываем все лишние классы
+    stockTag.classList.remove('is-last', 'is-available');
+    stockTag.style.animation = "none"; // Гарантированно выключаем анимацию
+
     if (stock === 1) {
         stockTag.innerHTML = "🔥 Последний";
-        stockTag.style.display = "inline-block"; // На всякий случай
-        stockTag.style.visibility = "visible";   // Показываем анимацию
+        stockTag.classList.add('is-last');
+        stockTag.style.animation = "blink 2s infinite"; // Включаем только здесь
     } else if (stock > 1) {
         stockTag.innerText = "В наличии";
-        // Для обычного "В наличии" можно убрать анимацию и цвет, если хочешь
-        stockTag.style.animation = "none";
-        stockTag.style.color = "#2e7d32"; 
-        stockTag.style.backgroundColor = "#e8f5e9";
+        stockTag.classList.add('is-available');
     } else {
         stockTag.innerText = "Нет в наличии";
-        stockTag.style.animation = "none";
         stockTag.style.color = "#888";
-        stockTag.style.backgroundColor = "#f5f5f5";
     }
 }
+
 
         // Твоя логика для кнопок
         if (stock <= 0) {
