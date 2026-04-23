@@ -268,15 +268,10 @@
 
 @keyframes blink {
     0% { opacity: 1; }
-    50% { opacity: 0.7; }
+    50% { opacity: 0.5; }
     100% { opacity: 1; }
 }
 
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
 
     
  /* ОБЩИЕ СТИЛИ (ДЛЯ ПК) */
@@ -2200,20 +2195,24 @@ function renderProducts() {
 
         // Логика для текста надписи (stock-tag)
 if (stockTag) {
-    // Сначала сбрасываем все лишние классы
-    stockTag.classList.remove('is-last', 'is-available');
-    stockTag.style.animation = "none"; // Гарантированно выключаем анимацию
+    // Сбрасываем стили перед проверкой
+    stockTag.style.animation = "none";
+    stockTag.style.background = "none";
+    stockTag.style.padding = "0";
 
     if (stock === 1) {
         stockTag.innerHTML = "🔥 Последний";
-        stockTag.classList.add('is-last');
-        stockTag.style.animation = "blink 2s infinite"; // Включаем только здесь
+        stockTag.style.color = "#e64a19"; // Насыщенный оранжево-красный
+        stockTag.style.fontWeight = "bold";
+        stockTag.style.animation = "blink 2s infinite";
     } else if (stock > 1) {
         stockTag.innerText = "В наличии";
-        stockTag.classList.add('is-available');
+        stockTag.style.color = "#2e7d32"; // Приятный зеленый
+        stockTag.style.fontWeight = "bold";
     } else {
         stockTag.innerText = "Нет в наличии";
-        stockTag.style.color = "#888";
+        stockTag.style.color = "#888";    // Серый
+        stockTag.style.fontWeight = "normal";
     }
 }
 
