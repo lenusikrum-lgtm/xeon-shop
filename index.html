@@ -246,6 +246,20 @@
         font-size: 16px;
     }
 }
+.last-item {
+    color: #e64a19; /* Насыщенный оранжево-красный */
+    font-weight: bold;
+    font-size: 0.9em;
+    animation: blink 2s infinite; /* Можно добавить легкое мигание */
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+    
  /* ОБЩИЕ СТИЛИ (ДЛЯ ПК) */
 .cart-item {
     display: flex;
@@ -2157,17 +2171,35 @@ function renderProducts() {
     document.querySelectorAll('.card').forEach(card => {
         const name = card.dataset.name;
         const btn = card.querySelector('.add-btn');
+        // Ищем твой тег с количеством
+        const stockTag = card.querySelector('.stock-tag');
         
-        // Если в карточке нет имени или кнопки - игнорируем её, чтобы не было ошибки
         if (!name || !btn) return; 
 
         const stock = parseInt(card.dataset.stock) || 0;
         const inCart = cart[name] ? cart[name].count : 0;
 
+        // Логика для текста надписи (stock-tag)
+        if (stockTag) {
+            if (stock === 1) {
+                stockTag.innerHTML = "🔥 Последний";
+                stockTag.style.backgroundColor = "#ff4d4d"; // Красный фон для паники :)
+                stockTag.style.color = "white";
+            } else if (stock > 1) {
+                stockTag.innerText = "В наличии";
+                stockTag.style.backgroundColor = ""; // Возвращаем стандартный цвет
+                stockTag.style.color = "";
+            } else {
+                stockTag.innerText = "Нет в наличии";
+                stockTag.style.background = "#888";
+            }
+        }
+
+        // Твоя логика для кнопок
         if (stock <= 0) {
             btn.innerText = "НЕТ В НАЛИЧИИ";
             btn.disabled = true;
-            btn.classList.add('disabled'); // Можно добавить стиль в CSS
+            btn.classList.add('disabled');
         } else if (inCart >= stock) {
             btn.innerText = "МАКСИМУМ";
             btn.disabled = true;
@@ -2177,6 +2209,7 @@ function renderProducts() {
         }
     });
 }
+
   function renderCart() {
     let h = '';
     for (let name in cart) {
